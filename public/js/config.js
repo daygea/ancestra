@@ -94,6 +94,11 @@ setTimeout(() => {
         });
     }
 })();
+
+const API_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:10000' 
+  : 'https://ancestra-nhhh.onrender.com';
+
 // async function hashPassword(password) {
 //     const encoder = new TextEncoder();
 //     const data = encoder.encode(password);
