@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ancestra - Be Illuminated</title>
+    <meta name="author" content="Ancestra" />
+    <meta name="description" content="Ancestra Speaks is a platform providing deep insights into Ifa divination and Numerology." />
+    <meta name="keywords" content="Ancestra, Ifa, Olodumare, Ajagunmale, Awonomaja, Odu, Orunmila, Eleye, Numerology, Irawo, Ayewo, Ibere, Ibeere, Divination, Divinition, Yoruba, Yoruba Divination, Ifa Divination, Orisa, Orisha, Eewo, ewo, taboo, Odu ifa, Itefa, Isefa, Knowing Oneself, Finding Oneself, Self discovery, Self mastery, Life path number, Energy, Vibration, Esu, Babalawo, Iyanifa, Apapo Odu, Illuminati, Illuminated, Igbo Odu, Orisala, Orishanla, Sango, Ogun, Obatala, Osun, Egun, Eegun, Egungun, Akala, Akalamagbo, Opele, Opon Ifa, Ebora, Ejiogbe, Oyeku, Iwori, Odi, Idi, Irosun, Owonrin, Obara, Okanran, Ogunda, Osa, Ika, Oturupon, Otura, Irete, Ose, Ofun, Ose Otura, Osa Owonrin, Osa Ogbe, Irosun Ika, Eshu, Esu odara, Esu elegbara, Egbe, Numerology, Astrology."/>
+    <link rel="canonical" href="https://ancestra.aokfoundation.org/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Ancestra - Be Illuminated" />
+    <meta property="og:description" content="Ancestra is a platform providing deep insights into African Spirituality." />
+    <meta property="og:url" content="https://ancestra.aokfoundation.org/" />
+    <meta property="og:site_name" content="Ancestra" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="public/css/bootstrap.css">
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="icon" href="public/img/favicon.png">
+</head>
+<body id="body">
+        <!-- Loader -->
+    <div id="preloader">
+        <img style="margin-top:50vh;" src="public/img/loader.gif" />
+    </div>
+    <div class="container-fluid" id="printArea">
+           
+        <center><a href="/" style="color: green; text-decoration: none;"><img src="public/img/logo.png" style="height:75px" alt="Ancestra Logo"/></a></center>
+     
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 text-center">
+                 <p>Mo juba <b>OLODUMARE</b>, Ajagunmale, Awonomaja, Odu Ologbooje, Egan, Gbogbo Eleye, Irinwo Imale, Igba Imale, Okanlenirinwo Imale, Otalelugba Imale, Oduduwa, Gbogbo Oba Alade. Mo juba Gbogbo Ajunilo.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div id="configurationResult" class="col-sm-3 odusign" style="font-family: cursive;">
+                <img id="hiddenTapArea" class="moving-bg" src="public/img/bird.gif"/>
+            </div>
+            <div class="col-sm-6 ifaDetails">
+                <div id="adminPasswordContainer" style="display: none;">
+                   <center> <input type="password" id="adminPassword" placeholder="Enter Admin Password" />
+                    <button onclick="authenticateAdmin()">Login</button> </center>
+                </div>
+                <div id="adminLogoutContainer" style="display: none;">
+                   <center> <button class="btn btn-md btn-default" onclick="printDivinationResult()">Print</button> <button class="btn btn-md btn-danger" onclick="logoutAdmin()">Logout</button> </center>
+                </div>
+                <h3 style="text-align: center;  font-weight: bold;">Divination Details</h3>
+                <label for="mainCast">Odu Ifa</label>
+                <select id="mainCast" class="form-control"></select>
+                <br>
+                <label for="orientation">Orientation (Ire / Ayewo)</label>
+                <select id="orientation" onchange="updateSpecificOrientation()" class="form-control">
+                    <option value="Positive">Ire</option>
+                    <option value="Negative">Ayewo</option>
+                </select>
+                <br>
+                <label for="specificOrientation">Specific Orientation</label>
+                <select id="specificOrientation" class="form-control"></select>
+                <br>
+                <label for="solution">Solution (Ebo / Adimu)</label>
+                <select id="solution" onchange="updateSolutionDetails()" class="form-control">
+                    <option value="Ebo" selected>Ebo</option>
+                    <option value="Adimu">Adimu</option>
+                </select>
+                <br>
+                <label for="solutionDetails">Specific Solution</label>
+                <select id="solutionDetails" class="form-control"></select>
+                <br>
+                <button onclick="performUserDivination()" class="btn btn-md btn-default app-btn">Reveal Message</button>
+            </div>
+            <div class="col-sm-3 numerology">
+                    <div id="result"></div>
+                    <label>Enter your full name</label>
+                    <div id="fullname-box">
+                        <center><input class="form-control" type="text" id="fullname" placeholder="Aminat Olanbiwoninu Kadri" style="width: 80%; max-width: 270px;" /></center> <br/>
+                    </div>
+                    <label>Select your birth date</label>
+                    <div id="birthdate-box">
+                        <input type="date" id="birthdate" placeholder="dd/mm/yyyy" /><br/><br/>
+                        <button class="btn btn-md btn-default app-btn" id="determine-btn">Reveal Message</button>
+                    </div>
+                    <p><b>OR</b></p>
+                     <p><b>Pick a Number</b></p>
+                     <div class="calculator" id="calculator">    
+                    </div>
+            </div>
+        </div>
+        <div class="container">
+             <div class="row">
+                <div class="col-12" style="color: green;" id="divinationResult">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12" style="color: green;" id="numerologyResult">
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal structure -->
+        <div id="paymentModal" class="modal">
+          <div class="modal-content">
+            <span class="close-btn" onclick="closePaymentModal()">&times;</span>
+            <h3>Pay ₦1000 to Unlock</h3>
+            <p>This Odu requires payment to access. Click below to proceed.</p>
+            <button id="payButton" onclick="processPayment()">Pay ₦1000</button>
+            <button class="cancel-btn" onclick="closePaymentModal()">Cancel</button>
+          </div>
+        </div>
+
+        <footer class="footer" style="margin-top: 0;">
+            <div class="container" style="margin-top: 0;">
+                <div class="row">
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                        <a target="_blank" href="https://paystack.com/pay/aokfoundation" class="btn btn-md btn-default app-btn" style="color: green; text-decoration: none; margin-top: 2vh">SUPPORT OUR MISSION</a>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+               <div class="row">
+                    <div class="col-12 text-center" style="color: green;">
+                           <!-- Video Modal -->
+                        <div id="videoModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:70%; background:white; border:2px solid #008000; z-index:10000; border-radius:10px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                          <div style="text-align:right; padding:5px;">
+                            <button onclick="closeVideoModal()" style="background:#008000; color:white; border:none; padding:5px 10px; cursor:pointer;">Close ✖</button>
+                          </div>
+                          <iframe id="videoFrame" width="100%" height="90%" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center" style="color: green;">
+                       
+                        <p style="color:red; padding-top: 1vh">Disclaimer: Ancestra is for informational and educational purposes only. It is not intended to replace professional advice or consultation.<p>
+
+                         <p>&copy; <span id="year"></span> Ancestra by <a style="color:green;" target="_blank" href="https://aokfoundation.org/">Aminat Olanbiwoninu Kadri (AOK) Foundation</a>. All Rights Reserved.</p>
+</p>
+                    </div>
+                </div>
+
+                <div id="chatbot-container" class="hidden">
+                    <div id="chatbot-header">
+                        <span>💬 Ask Ancestra</span>
+                        <button class="app-btn" onclick="toggleChatbot()">Close</button>
+                    </div>
+
+                    <div id="chatbot-messages">
+                        <div class="chat-message-wrapper align-left">
+                            <div class="chat-message bot-message">Hello! How can I assist you today?</div>
+                        </div>
+                    </div>
+
+                    <div id="chatbot-input-container">
+                        <textarea id="chatbot-input" placeholder="Ask any question (e.g Tell me about the creation story)"></textarea>
+                       &nbsp; <button class="app-btn" id="send-btn" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+
+                <button id="chatbot-toggle" onclick="toggleChatbot()">💬</button>
+
+            </div>
+        </footer>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script type="text/javascript" src="public/js/odus.js"></script>
+<script type="text/javascript" src="public/js/chatbot.js"></script>
+<script type="text/javascript" src="public/js/audioVideo.js"></script>
+<script type="text/javascript" src="public/js/knowledgeBase.js"></script>
+<script type="text/javascript" src="public/js/config.js"></script>
+<script type="text/javascript" src="public/js/utils.js"></script>
+<script type="text/javascript" src="public/js/main.js"></script>
+
+</body>
+</html>
