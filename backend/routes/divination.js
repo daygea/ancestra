@@ -5,7 +5,8 @@ const path = require('path');
 
 // POST /api/divination/log
 router.post('/log', (req, res) => {
-    const logPath = path.join(__dirname, '..', 'logs', 'divinationLogs.json');
+
+    const logFilePath = path.join(__dirname, "../logs/divinationLogs.json");
 
 	// Ensure the logs directory exists
 	if (!fs.existsSync(path.dirname(logFilePath))) {
@@ -23,12 +24,12 @@ router.post('/log', (req, res) => {
     };
 
     let logs = [];
-    if (fs.existsSync(logPath)) {
-        logs = JSON.parse(fs.readFileSync(logPath));
+    if (fs.existsSync(logFilePath)) {
+        logs = JSON.parse(fs.readFileSync(logFilePath));
     }
 
     logs.push(entry);
-    fs.writeFileSync(logPath, JSON.stringify(logs, null, 2));
+    fs.writeFileSync(logFilePath, JSON.stringify(logs, null, 2));
 
     res.json({ success: true });
 });
