@@ -7,6 +7,16 @@ const path = require('path');
 router.post('/log', (req, res) => {
     const logPath = path.join(__dirname, '..', 'logs', 'divinationLogs.json');
 
+	// Ensure the logs directory exists
+	if (!fs.existsSync(path.dirname(logFilePath))) {
+	    fs.mkdirSync(path.dirname(logFilePath), { recursive: true });
+	}
+
+	// Ensure the log file exists
+	if (!fs.existsSync(logFilePath)) {
+	    fs.writeFileSync(logFilePath, "[]");
+	}
+
     const entry = {
         ...req.body,
         timestamp: new Date().toISOString()
