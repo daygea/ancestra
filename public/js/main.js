@@ -31,6 +31,20 @@ function grantOduAccess(oduName, orientation, specificOrientation, solution, sol
     const combinationKey = `${oduName}-${orientation}-${specificOrientation}-${solution}-${solutionDetails}`;
     paidOdus[combinationKey] = Date.now() + 24 * 60 * 60 * 1000; // Set 24-hour expiry
 
+  await fetch(`${API_URL}/api/divination/log`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            oduName: mainCast,
+            orientation,
+            specificOrientation,
+            solution,
+            solutionDetails,
+            paid: true
+        })
+    });
+
+
     localStorage.setItem("paidOdus", encryptData(paidOdus));
 }
 function payForOdu(oduName, orientation, specificOrientation, solution, solutionDetails) {
@@ -490,6 +504,8 @@ const performUserDivination = async (
                 solutionDetails
             })
         });
+
+
         resultElement.innerHTML = resultHTML;
 
             } else {
