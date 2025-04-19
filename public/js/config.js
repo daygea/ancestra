@@ -95,7 +95,7 @@ setTimeout(() => {
     }
 })();
 
-const API_URL = window.location.hostname === 'localhost' 
+const API_URL = window.location.hostname === "file:" || 'localhost' 
   ? 'http://localhost:10000' 
   : 'https://ancestra-nhhh.onrender.com';
 
