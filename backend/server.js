@@ -3,11 +3,14 @@ const app = express();
 const cors = require('cors');
 const fs = require('fs');
 const path = require("path");
-// const PORT = 10000;
+const helmet = require('helmet'); // Security headers
+const Paystack = require('paystack')(process.env.PAYSTACK_SECRET_KEY);
+
 const PORT = process.env.PORT || 10000;
 
 
 // Middlewares
+app.use(helmet()); // Security headers for paystack
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
