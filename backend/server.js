@@ -3,14 +3,12 @@ const app = express();
 const cors = require('cors');
 const fs = require('fs');
 const path = require("path");
-const helmet = require('helmet'); // Security headers
-const Paystack = require('paystack')(process.env.PAYSTACK_SECRET_KEY);
-
+// const PORT = 10000;
 const PORT = process.env.PORT || 10000;
+const Paystack = require('paystack')('sk_live_3cd1cf3faa09a8f21d0be4fe28d6302cd1a11bc3');
 
 
 // Middlewares
-app.use(helmet()); // Security headers for paystack
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
@@ -75,6 +73,40 @@ app.get('/api/odu/solutionDetails/:mainCast/:solution', (req, res) => {
   }
 });
 
+// Add this endpoint to provide the public key securely
+// Paystack Key Endpoint
+app.get('/api/paystack-key', (req, res) => {
+  res.json({ 
+    key: 'pk_live_b39b445fba8a155f04a04980705a3c10ae85d673',
+    timestamp: Date.now() // Helps debug caching issues
+  });
+});
+
+// Payment Verification Endpoint
+app.get('/api/payment/verify/:reference', async (req, res) => {
+  try {
+    console.log('Verifying payment:', req.params.reference); // Debug log
+    
+    const verification = await Paystack.transaction.verify(req.params.reference);
+    
+    // Basic validation
+    if (verification.data.status !== 'success') {
+      return res.json({ success: false });
+    }
+    
+    // Additional checks (amount in kobo)
+    if (verification.data.amount !== 100000) {
+      console.warn('Amount mismatch:', verification.data.amount);
+      return res.json({ success: false });
+    }
+    
+    res.json({ success: true });
+    
+  } catch (error) {
+    console.error('Verification failed:', error);
+    res.status(500).json({ success: false });
+  }
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

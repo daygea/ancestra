@@ -35,7 +35,7 @@ function grantOduAccess(oduName, orientation, specificOrientation, solution, sol
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            oduName: mainCast,
+            oduName: oduName,
             orientation,
             specificOrientation,
             solution,
@@ -47,70 +47,71 @@ function grantOduAccess(oduName, orientation, specificOrientation, solution, sol
 
     localStorage.setItem("paidOdus", encryptData(paidOdus));
 }
-// function payForOdu(oduName, orientation, specificOrientation, solution, solutionDetails) {
-//     let handler = PaystackPop.setup({
-//         key: "pk_live_b39b445fba8a155f04a04980705a3c10ae85d673",
-//         email: "info@aokfoundation.org",
-//         amount: 100000, // ₦1000 (amount is in kobo)
-//         currency: "NGN",
-//         callback: function(response) {
-//             alert("Donation made successfully, Thank you! Ref: " + response.reference);
-//             grantOduAccess(oduName, orientation, specificOrientation, solution, solutionDetails);
-//             performUserDivination();
-//         },
-//         onClose: function() {
-//             alert("Payment cancelled.");
-//         }
-//     });
-//     handler.openIframe();
-// }
 
-// main.js
 async function payForOdu(oduName, orientation, specificOrientation, solution, solutionDetails) {
+  // Show loading state
+  const payButton = document.getElementById('payButton');
+  if (payButton) {
+    payButton.disabled = true;
+    payButton.textContent = 'Processing...';
+  }
+
   try {
-    // 1. Securely get payment session from backend
-    const sessionResponse = await fetch(`${API_URL}/api/payment/create-payment-session`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: "info@aokfoundation.org",
-        amount: 100000, // ₦1000 in kobo
-        metadata: { oduName, orientation, specificOrientation, solution, solutionDetails }
-      })
-    });
-
-    if (!sessionResponse.ok) throw new Error('Failed to initialize payment');
+    // 1. Get Paystack key
+    const keyResponse = await fetch(`${API_URL}/api/paystack-key`);
     
-    const { publicKey, sessionId } = await sessionResponse.json();
+    if (!keyResponse.ok) {
+      throw new Error('Failed to get Paystack key');
+    }
+    
+    const { key } = await keyResponse.json();
+    console.log('Received Paystack key:', key); // Debug log
 
-    // 2. Initialize inline popup WITH SECURE TOKENS
+    // 2. Initialize payment
     const handler = PaystackPop.setup({
-      key: publicKey, // From backend (not hardcoded)
+      key: key,
       email: "info@aokfoundation.org",
-      amount: 100000,
+      amount: 100000, // ₦1000 in kobo
       currency: "NGN",
-      ref: sessionId, // One-time use token
-      metadata: { oduName, orientation, specificOrientation, solution, solutionDetails },
-      callback: async (response) => {
-        // 3. VERIFY payment on backend before granting access
-        const verification = await verifyPayment(response.reference);
-        if (verification.success) {
-          grantOduAccess(oduName, orientation, specificOrientation, solution, solutionDetails);
-          performUserDivination();
-        } else {
-          alert("Payment verification failed. Please contact support.");
-        }
+      metadata: { 
+        oduName, orientation, specificOrientation, solution, solutionDetails 
       },
-      onClose: function() {
-        console.log("Payment window closed");
+       callback: function handlePaymentCallback(response) {  // Proper function declaration
+        // Verify payment on backend
+        verifyPayment(response.reference)
+          .then(verification => {
+            if (verification.success) {
+              grantOduAccess(oduName, orientation, specificOrientation, solution, solutionDetails);
+              performUserDivination();
+              alert("Payment successful! Thank you for the donation.");
+            } else {
+              alert("Payment verification pending. Your access will be granted shortly.");
+            }
+          })
+          .catch(error => {
+            console.error("Verification error:", error);
+            alert("Payment received! Verification may take a moment.");
+          });
+      },
+      onClose: function handlePaymentClose() {  // Proper function declaration
+        if (payButton) {
+          payButton.disabled = false;
+          payButton.textContent = 'Donate Now';
+        }
+        console.log("Payment window was closed");
       }
     });
-    
+
+    // 3. Open payment modal
     handler.openIframe();
-    
+
   } catch (error) {
-    console.error("Payment error:", error);
-    alert("Payment initialization failed: " + error.message);
+    console.error("Payment initialization error:", error);
+    alert("Payment failed to start. Please try again.");
+    if (payButton) {
+      payButton.disabled = false;
+      payButton.textContent = 'Donate Now';
+    }
   }
 }
 
@@ -507,7 +508,7 @@ const performUserDivination = async (
         const audioHTML = audioData.length
             ? audioData.map(item =>
                 `<p class="col-md-6" style="float:left;"> 
-                    <a href="#" onclick="openAudioModal('${item.url}'); return false;">
+                    <a href="${item.url}" target="_blank">
                         <img src="public/img/player.png" style="height: 20px;" /> Listen to Audio
                     </a> of ${item.author}
                 </p>`).join("")
@@ -576,7 +577,7 @@ const performUserDivination = async (
                     ${mainCast}, ${orientationText} (${specificOrientation}), ${solution} ${solutionDetails}.
                 </h4>
                 <br/>
-                <button class="btn btn-lg btn-warning" 
+                <button id="payButton" class="btn btn-lg btn-warning" 
                     onclick="payForOdu('${mainCast}', '${orientation}', '${specificOrientation}', '${solution}', '${solutionDetails}')">
                     Donate Now
                 </button>
