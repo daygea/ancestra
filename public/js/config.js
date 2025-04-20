@@ -110,14 +110,4 @@ const API_URL = window.location.hostname === "file:" || 'localhost'
 
 // openAI - "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"
 
-//https://ayetoto.com/step_in.php
-// https://ayetoto.com/extended.php
-// https://ayetoto.com/extended_p.php
-// https://ayetoto.com/extended_h.php
-// https://ayetoto.com/extended_l.php
-// https://ayetoto.com/extended_doing.php
-// https://ayetoto.com/name.php?lucky_output=7
-// https://ayetoto.com/message_dates.php?in=03/30/1991&lucky_output=6&action=core_y
-// https://ayetoto.com/heart.php?lucky_output=4
-// https://ayetoto.com/message_dates.php?in=03/30/1991&lucky_output=8&action=core_l
 

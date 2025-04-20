@@ -44,7 +44,6 @@ function grantOduAccess(oduName, orientation, specificOrientation, solution, sol
         })
     });
 
-
     localStorage.setItem("paidOdus", encryptData(paidOdus));
 }
 
@@ -198,12 +197,6 @@ const populateDropdown = (dropdown, options) => {
         dropdown.appendChild(optElement);
     });
 };
-// const populateDropdowns = () => {
-//     const mainCastDropdown = document.getElementById("mainCast");
-//     populateDropdown(mainCastDropdown, allOdus);
-//     updateSpecificOrientation();
-//     updateSolutionDetails();
-// };
 
 const populateDropdowns = async () => {
     try {
@@ -223,11 +216,6 @@ const populateDropdowns = async () => {
         alert("Failed to load dropdown data. Please refresh the page.");
     }
 };
-
-// document.getElementById("mainCast").addEventListener("change", function() {
-//     const selectedOdu = this.value; // Get the selected Odu Ifa from the dropdown or input
-//     displayConfiguration(selectedOdu); // Pass it to the function
-// });
 
 // Modify your event listeners to ensure dropdowns are ready
 document.getElementById("orientation").addEventListener("change", async function() {
@@ -586,7 +574,6 @@ const performUserDivination = async (
                 solutionDetails
             })
         });
-
 
         resultElement.innerHTML = resultHTML;
 
