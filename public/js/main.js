@@ -47,22 +47,82 @@ function grantOduAccess(oduName, orientation, specificOrientation, solution, sol
 
     localStorage.setItem("paidOdus", encryptData(paidOdus));
 }
-function payForOdu(oduName, orientation, specificOrientation, solution, solutionDetails) {
-    let handler = PaystackPop.setup({
-        key: "pk_live_b39b445fba8a155f04a04980705a3c10ae85d673",
+// function payForOdu(oduName, orientation, specificOrientation, solution, solutionDetails) {
+//     let handler = PaystackPop.setup({
+//         key: "pk_live_b39b445fba8a155f04a04980705a3c10ae85d673",
+//         email: "info@aokfoundation.org",
+//         amount: 100000, // ₦1000 (amount is in kobo)
+//         currency: "NGN",
+//         callback: function(response) {
+//             alert("Donation made successfully, Thank you! Ref: " + response.reference);
+//             grantOduAccess(oduName, orientation, specificOrientation, solution, solutionDetails);
+//             performUserDivination();
+//         },
+//         onClose: function() {
+//             alert("Payment cancelled.");
+//         }
+//     });
+//     handler.openIframe();
+// }
+
+// main.js
+async function payForOdu(oduName, orientation, specificOrientation, solution, solutionDetails) {
+  try {
+    // 1. Securely get payment session from backend
+    const sessionResponse = await fetch(`${API_URL}/api/payment/create-payment-session`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         email: "info@aokfoundation.org",
-        amount: 100000, // ₦1000 (amount is in kobo)
-        currency: "NGN",
-        callback: function(response) {
-            alert("Donation made successfully, Thank you! Ref: " + response.reference);
-            grantOduAccess(oduName, orientation, specificOrientation, solution, solutionDetails);
-            performUserDivination();
-        },
-        onClose: function() {
-            alert("Payment cancelled.");
-        }
+        amount: 100000, // ₦1000 in kobo
+        metadata: { oduName, orientation, specificOrientation, solution, solutionDetails }
+      })
     });
+
+    if (!sessionResponse.ok) throw new Error('Failed to initialize payment');
+    
+    const { publicKey, sessionId } = await sessionResponse.json();
+
+    // 2. Initialize inline popup WITH SECURE TOKENS
+    const handler = PaystackPop.setup({
+      key: publicKey, // From backend (not hardcoded)
+      email: "info@aokfoundation.org",
+      amount: 100000,
+      currency: "NGN",
+      ref: sessionId, // One-time use token
+      metadata: { oduName, orientation, specificOrientation, solution, solutionDetails },
+      callback: async (response) => {
+        // 3. VERIFY payment on backend before granting access
+        const verification = await verifyPayment(response.reference);
+        if (verification.success) {
+          grantOduAccess(oduName, orientation, specificOrientation, solution, solutionDetails);
+          performUserDivination();
+        } else {
+          alert("Payment verification failed. Please contact support.");
+        }
+      },
+      onClose: function() {
+        console.log("Payment window closed");
+      }
+    });
+    
     handler.openIframe();
+    
+  } catch (error) {
+    console.error("Payment error:", error);
+    alert("Payment initialization failed: " + error.message);
+  }
+}
+
+// Payment verification function
+async function verifyPayment(reference) {
+  try {
+    const response = await fetch(`${API_URL}/api/payment/verify/${reference}`);
+    return await response.json();
+  } catch (error) {
+    console.error("Verification failed:", error);
+    return { success: false };
+  }
 }
 
 // Check if the Odu is locked (premium)
