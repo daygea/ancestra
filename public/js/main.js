@@ -132,7 +132,6 @@ async function revealOduMeaning(oduName, orientation, specificOrientation, solut
 
     if (hasAccess) {
         // If Odu is paid, fetch Odu data and proceed with divination
-        // const oduInfo = await fetch(`http://localhost:3000/api/odu/${oduName}`);
         const oduInfo = await fetch(`${API_URL}/api/odu/${oduName}`);
         const data = await oduInfo.json();
         performUserDivination(data);  // Proceed with divination
@@ -199,20 +198,56 @@ const populateDropdown = (dropdown, options) => {
         dropdown.appendChild(optElement);
     });
 };
-const populateDropdowns = () => {
-    const mainCastDropdown = document.getElementById("mainCast");
-    populateDropdown(mainCastDropdown, allOdus);
-    updateSpecificOrientation();
-    updateSolutionDetails(); // Populate solution details on page load
+// const populateDropdowns = () => {
+//     const mainCastDropdown = document.getElementById("mainCast");
+//     populateDropdown(mainCastDropdown, allOdus);
+//     updateSpecificOrientation();
+//     updateSolutionDetails();
+// };
+
+const populateDropdowns = async () => {
+    try {
+        
+        const mainCastDropdown = document.getElementById("mainCast");
+        
+        // First populate main cast dropdown
+        populateDropdown(mainCastDropdown, allOdus);
+        
+        // Then populate dependent dropdowns sequentially
+        await updateSpecificOrientation();
+        await updateSolutionDetails();
+        
+    } catch (error) {
+        console.error("Error initializing dropdowns:", error);
+
+        alert("Failed to load dropdown data. Please refresh the page.");
+    }
 };
-document.getElementById("mainCast").addEventListener("change", function() {
-    const selectedOdu = this.value; // Get the selected Odu Ifa from the dropdown or input
-    displayConfiguration(selectedOdu); // Pass it to the function
+
+// document.getElementById("mainCast").addEventListener("change", function() {
+//     const selectedOdu = this.value; // Get the selected Odu Ifa from the dropdown or input
+//     displayConfiguration(selectedOdu); // Pass it to the function
+// });
+
+// Modify your event listeners to ensure dropdowns are ready
+document.getElementById("orientation").addEventListener("change", async function() {
+    await updateSpecificOrientation();
 });
+
+document.getElementById("solution").addEventListener("change", async function() {
+    await updateSolutionDetails();
+});
+
+document.getElementById("mainCast").addEventListener("change", async function() {
+    const selectedOdu = this.value;
+    await updateSpecificOrientation();
+    await updateSolutionDetails();
+    displayConfiguration(selectedOdu);
+});
+
 // Check if oduMessages has data for the selected mainCast, fallback if not
 const getOduMessageData = async (mainCast, orientation, specificOrientation, solution, specificSolution) => {
     try {
-        // const response = await fetch(`http://localhost:3000/api/odu/messages/${encodeURIComponent(mainCast)}/${encodeURIComponent(orientation)}/${encodeURIComponent(specificOrientation)}/${encodeURIComponent(solution)}/${encodeURIComponent(specificSolution)}`);
 
         const response = await fetch(`${API_URL}/api/odu/messages/${encodeURIComponent(mainCast)}/${encodeURIComponent(orientation)}/${encodeURIComponent(specificOrientation)}/${encodeURIComponent(solution)}/${encodeURIComponent(specificSolution)}`);
         
@@ -254,7 +289,6 @@ const updateSpecificOrientation = async () => {
     }
 
     try {
-        // const response = await fetch(`http://localhost:3000/api/odu/orientations/${encodeURIComponent(mainCast)}/${encodeURIComponent(orientation)}`);
 
         const response = await fetch(`${API_URL}/api/odu/orientations/${encodeURIComponent(mainCast)}/${encodeURIComponent(orientation)}`);
         
@@ -291,7 +325,6 @@ const updateSolutionDetails = async () => {
     }
 
     try {
-        // const response = await fetch(`http://localhost:3000/api/odu/solutionDetails/${encodeURIComponent(mainCast)}/${encodeURIComponent(solution)}`);
 
         const response = await fetch(`${API_URL}/api/odu/solutionDetails/${encodeURIComponent(mainCast)}/${encodeURIComponent(solution)}`);
         
@@ -315,8 +348,6 @@ function getDefaultSolutionOptions(solution) {
         ? ["Akoru", "Esha"]
         : ["Ori", "Osha", "Eegun", "Ifa"];
 }
-
-
 
 function getOduSummary(mainCast) {
     const cleanedOdu = mainCast.replace("Meji", "").replace("Eji", "").trim();
@@ -482,7 +513,6 @@ const performUserDivination = async (
     resultElement.innerHTML = "<p style='text-align:center'><em>Loading divination details...</em></p>";
 
     try {
-        // const response = await fetch('http://localhost:3000/api/odu/' + encodeURIComponent(mainCast));
         const response = await fetch(`${API_URL}/api/odu/${encodeURIComponent(mainCast)}`);
         if (!response.ok) throw new Error("Failed to fetch Odu data");
 
@@ -550,9 +580,6 @@ const performUserDivination = async (
         resultHTML += `${audioHTML} ${videoHTML} <hr style="clear:both;"/>`;
 
         if (credit) resultHTML += `<p style="font-weight: bold;"><u>Credit</u></p> ${credit}`;
-
-       
-        // await fetch("http://localhost:3000/api/divination/log", {
 
         await fetch(`${API_URL}/api/divination/log`, {
             method: "POST",
@@ -654,14 +681,13 @@ const displayConfiguration = (oduName) => {
 };
 // Initialize on page load
 window.onload = function() {
+    populateDropdowns();
      setTimeout(() => {
         document.getElementById("preloader").style.display = "none";
     }, 3000); // Adjust time as needed
     generateCircularButtons();
-    populateDropdowns();
+   
     speechSynthesis.cancel(); // Stop any ongoing speech
-const savedLang = localStorage.getItem("appLang") || "en";
-  // setLanguage(savedLang);
 };
  // Generate calculator buttons with hidden numbers
 let canClick = true;
@@ -715,7 +741,6 @@ async function displayMeaning(number, selectedButton) {
 
     try {
         // Fetch the numerology meaning from the backend
-        // const response = await fetch(`http://localhost:3000/api/numerology/${numerologyNumber}`);
 
         const response = await fetch(`${API_URL}/api/numerology/${numerologyNumber}`);
         
@@ -781,7 +806,6 @@ document.getElementById("determine-btn").onclick = async () => {
 
     try {
         const response = await fetch(`${API_URL}/api/numerology/` ,{
-        // const response = await fetch("http://localhost:3000/api/numerology", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ fullname: fullName, birthdate })
