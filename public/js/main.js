@@ -553,12 +553,6 @@ const performUserDivination = async (
                 </p>`).join("")
             : "";
 
-            // Try to log, but continue even if it fails
-            try {
-              await logDivination(oduData);
-            } catch (loggingError) {
-              console.warn('Non-critical logging error:', loggingError);
-            }
         if (isAdminAuthenticated || freeOdus.includes(mainCast) || isOduPaid(mainCast, orientation, specificOrientation, solution, solutionDetails)) {
         let resultHTML = `
             <h3 style="text-align: center; margin-top:20px; font-weight: bold;">
