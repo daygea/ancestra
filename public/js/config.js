@@ -95,9 +95,27 @@ setTimeout(() => {
     }
 })();
 
-const API_URL = window.location.hostname === "file:" || 'localhost' 
-  ? 'http://localhost:10000' 
-  : 'https://ancestra-nhhh.onrender.com';
+// const SERVER_URL = window.location.hostname === "file:" || 'localhost' 
+//   ? 'http://localhost:10000' 
+//   : 'https://ancestra-nhhh.onrender.com';
+
+const SERVER_URL = (() => {
+  // Check if we're in development environment
+  if (window.location.hostname === "localhost" || 
+      window.location.hostname === "127.0.0.1" || 
+      window.location.protocol === "file:") {
+    return 'http://localhost:10000';
+  }
+  
+  // Check if we're on the cloud
+  if (window.location.hostname === 'daygea.github.io/ancestra/' || 
+      window.location.hostname === 'ancestra.aokfoundation.org') {
+      return 'https://ancestra-nhhh.onrender.com';
+  }
+  
+  // Default to Render.com backend
+  return 'https://ancestra-nhhh.onrender.com';
+})();
 
 // async function hashPassword(password) {
 //     const encoder = new TextEncoder();
