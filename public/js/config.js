@@ -107,13 +107,13 @@ const SERVER_URL = (() => {
     return 'http://localhost:10000';
   }
   
-  // Check if we're on the cloud
-  if (window.location.hostname === 'daygea.github.io/ancestra/' || 
+  // Check if we're on GitHub Pages or your custom domain
+  if (window.location.hostname === 'daygea.github.io' || 
       window.location.hostname === 'ancestra.aokfoundation.org') {
-      return 'https://ancestra-nhhh.onrender.com';
+    return 'https://ancestra-nhhh.onrender.com';
   }
   
-  // Default to Render.com backend
+  // Default to Render.com backend (this is redundant now, could remove)
   return 'https://ancestra-nhhh.onrender.com';
 })();
 
