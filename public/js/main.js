@@ -31,7 +31,7 @@ function grantOduAccess(oduName, orientation, specificOrientation, solution, sol
     const combinationKey = `${oduName}-${orientation}-${specificOrientation}-${solution}-${solutionDetails}`;
     paidOdus[combinationKey] = Date.now() + 24 * 60 * 60 * 1000; // Set 24-hour expiry
 
-   fetch(`${API_URL}/api/divination/log`, {
+   fetch(`${SERVER_URL}/api/divination/log`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -57,7 +57,7 @@ async function payForOdu(oduName, orientation, specificOrientation, solution, so
 
   try {
     // 1. Get Paystack key
-    const keyResponse = await fetch(`${API_URL}/api/paystack-key`);
+    const keyResponse = await fetch(`${SERVER_URL}/api/paystack-key`);
     
     if (!keyResponse.ok) {
       throw new Error('Failed to get Paystack key');
@@ -117,7 +117,7 @@ async function payForOdu(oduName, orientation, specificOrientation, solution, so
 // Payment verification function
 async function verifyPayment(reference) {
   try {
-    const response = await fetch(`${API_URL}/api/payment/verify/${reference}`);
+    const response = await fetch(`${SERVER_URL}/api/payment/verify/${reference}`);
     return await response.json();
   } catch (error) {
     console.error("Verification failed:", error);
@@ -131,7 +131,7 @@ async function revealOduMeaning(oduName, orientation, specificOrientation, solut
 
     if (hasAccess) {
         // If Odu is paid, fetch Odu data and proceed with divination
-        const oduInfo = await fetch(`${API_URL}/api/odu/${oduName}`);
+        const oduInfo = await fetch(`${SERVER_URL}/api/odu/${oduName}`);
         const data = await oduInfo.json();
         performUserDivination(data);  // Proceed with divination
     } else {
@@ -237,7 +237,7 @@ document.getElementById("mainCast").addEventListener("change", async function() 
 const getOduMessageData = async (mainCast, orientation, specificOrientation, solution, specificSolution) => {
     try {
 
-        const response = await fetch(`${API_URL}/api/odu/messages/${encodeURIComponent(mainCast)}/${encodeURIComponent(orientation)}/${encodeURIComponent(specificOrientation)}/${encodeURIComponent(solution)}/${encodeURIComponent(specificSolution)}`);
+        const response = await fetch(`${SERVER_URL}/api/odu/messages/${encodeURIComponent(mainCast)}/${encodeURIComponent(orientation)}/${encodeURIComponent(specificOrientation)}/${encodeURIComponent(solution)}/${encodeURIComponent(specificSolution)}`);
         
         if (!response.ok) throw new Error("Failed to fetch Odu message data");
 
@@ -278,7 +278,7 @@ const updateSpecificOrientation = async () => {
 
     try {
 
-        const response = await fetch(`${API_URL}/api/odu/orientations/${encodeURIComponent(mainCast)}/${encodeURIComponent(orientation)}`);
+        const response = await fetch(`${SERVER_URL}/api/odu/orientations/${encodeURIComponent(mainCast)}/${encodeURIComponent(orientation)}`);
         
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
@@ -314,7 +314,7 @@ const updateSolutionDetails = async () => {
 
     try {
 
-        const response = await fetch(`${API_URL}/api/odu/solutionDetails/${encodeURIComponent(mainCast)}/${encodeURIComponent(solution)}`);
+        const response = await fetch(`${SERVER_URL}/api/odu/solutionDetails/${encodeURIComponent(mainCast)}/${encodeURIComponent(solution)}`);
         
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
@@ -501,7 +501,7 @@ const performUserDivination = async (
     resultElement.innerHTML = "<p style='text-align:center'><em>Loading divination details...</em></p>";
 
     try {
-        const response = await fetch(`${API_URL}/api/odu/${encodeURIComponent(mainCast)}`);
+        const response = await fetch(`${SERVER_URL}/api/odu/${encodeURIComponent(mainCast)}`);
         if (!response.ok) throw new Error("Failed to fetch Odu data");
 
         const oduData = await response.json();
@@ -563,7 +563,7 @@ const performUserDivination = async (
 
         if (credit) resultHTML += `<p style="font-weight: bold;"><u>Credit</u></p> ${credit}`;
 
-        await fetch(`${API_URL}/api/divination/log`, {
+        await fetch(`${SERVER_URL}/api/divination/log`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -723,7 +723,7 @@ async function displayMeaning(number, selectedButton) {
     try {
         // Fetch the numerology meaning from the backend
 
-        const response = await fetch(`${API_URL}/api/numerology/${numerologyNumber}`);
+        const response = await fetch(`${SERVER_URL}/api/numerology/${numerologyNumber}`);
         
         if (!response.ok) {
             throw new Error('Failed to fetch numerology meaning');
@@ -786,7 +786,7 @@ document.getElementById("determine-btn").onclick = async () => {
     configurationElement.innerHTML = `<img class="moving-bg" src="public/img/bird.gif" />`;
 
     try {
-        const response = await fetch(`${API_URL}/api/numerology/` ,{
+        const response = await fetch(`${SERVER_URL}/api/numerology/` ,{
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ fullname: fullName, birthdate })

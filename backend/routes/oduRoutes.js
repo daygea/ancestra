@@ -1,6 +1,45 @@
 const express = require("express");
 const router = express.Router();
 const oduData = require("../data/oduData");
+const fs = require("fs");
+const path = require("path");
+
+// Path to oduData.js file
+const oduDataPath = path.join(__dirname, "../data/oduData.js");
+
+// Helper: Save updated oduData to the JS file (overwrite as a module export)
+function saveOduDataToFile(updatedData) {
+    const content = `const oduData = ${JSON.stringify(updatedData, null, 4)};\n\nmodule.exports = oduData;`;
+    fs.writeFileSync(oduDataPath, content, "utf-8");
+}
+
+// Admin Update Endpoint
+router.post("/updateOdu", (req, res) => {
+    const { oduName, updatedFields } = req.body;
+
+    if (!oduName || !updatedFields) {
+        return res.status(400).json({ error: "oduName and updatedFields are required." });
+    }
+
+    if (!oduData[oduName]) {
+        oduData[oduName] = {}; // Create new entry if not exists
+    }
+
+    // Merge updates
+    oduData[oduName] = {
+        ...oduData[oduName],
+        ...updatedFields
+    };
+
+    try {
+        saveOduDataToFile(oduData);
+        res.json({ message: `${oduName} updated successfully.` });
+    } catch (err) {
+        console.error("Error saving oduData:", err);
+        res.status(500).json({ error: "Failed to save changes to oduData.js" });
+    }
+});
+
 
 // Example endpoint: /api/odu/Ofun Ose
 router.get("/:name", (req, res) => {
