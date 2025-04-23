@@ -868,18 +868,41 @@ function decodeIfaWithSpiritualContext(mainCastParam, orientationParam, specific
     };
 
     const elements = ["Air", "Fire", "Water", "Earth"];
-    const orishaMapping = {
-        "Air": { orisha: "Orunmila", keywords: ["wisdom", "destiny", "intuition", "clarity"] },
-        "Fire": { orisha: "Sango", keywords: ["courage", "justice", "action", "transformation"] },
-        "Water": { orisha: "Obatala", keywords: ["peace", "compassion", "purity", "forgiveness"] },
-        "Earth": { orisha: "Ogun", keywords: ["work", "discipline", "stability", "manifestation"] }
+    const elementSpiritualData = {
+        Air: {
+            orisha: "Orunmila",
+            essence: "Thought, Breath, Spirit, Intuition",
+            attributes: "Wisdom, foresight, clarity of mind, divine communication",
+            imbalance: "Confusion, anxiety, mental fog",
+            focus: "Meditation, journaling, prayer, quiet study, dream interpretation"
+        },
+        Fire: {
+            orisha: "Sango",
+            essence: "Power, Will, Energy, Justice",
+            attributes: "Transformation, strength, courage, righteous action",
+            imbalance: "Anger, restlessness, impulsive actions",
+            focus: "Act with purpose, assert boundaries, align with justice, dance, use fire rituals"
+        },
+        Water: {
+            orisha: "Obatala",
+            essence: "Emotion, Compassion, Healing, Purity",
+            attributes: "Peace, forgiveness, nurturing, gentleness",
+            imbalance: "Emotional blockages, harshness, internal turmoil",
+            focus: "Engage in cleansing rituals, show kindness, offer peace, drink water mindfully, take spiritual baths"
+        },
+        Earth: {
+            orisha: "Ogun",
+            essence: "Grounding, Labor, Structure, Manifestation",
+            attributes: "Hard work, discipline, protection, practicality",
+            imbalance: "Laziness, instability, disconnection from purpose",
+            focus: "Get hands-on with projects, organize, plant something, work with iron/tools, connect to ancestors"
+        }
     };
 
     const getOduPattern = (oduName) => {
-        return baseOdus[oduName] || ["|", "|", "|", "|"]; // fallback
+        return baseOdus[oduName] || ["|", "|", "|", "|"];
     };
 
-    // Determine if it's one of the first 16 major Odus
     const isDoubleOdu = Object.keys(baseOdus).includes(mainCastParam);
     const focusedOdu = isDoubleOdu
         ? mainCastParam.replace(" Meji", "").replace("Eji", "")
@@ -888,19 +911,22 @@ function decodeIfaWithSpiritualContext(mainCastParam, orientationParam, specific
             : mainCastParam.split(" ")[0];
 
     const pattern = getOduPattern(`${focusedOdu} Meji`);
-
     const latentOrishaInsights = [];
 
     const markInterpretation = pattern.map((mark, index) => {
         const element = elements[index];
-        const mapping = orishaMapping[element];
+        const mapping = elementSpiritualData[element];
         const isOpen = mark === "|";
         const energyState = isOpen ? "open (energetically active)" : "closed (energetically latent)";
 
         if (!isOpen) {
-            latentOrishaInsights.push(
-                `<strong>${mapping.orisha}</strong> — focus on: <em>${mapping.keywords.join(", ")}</em>`
-            );
+            latentOrishaInsights.push(`
+                <strong>${mapping.orisha}</strong> (${element})<br/>
+                • Essence: ${mapping.essence}<br/>
+                • Attributes: ${mapping.attributes}<br/>
+                • Imbalance: ${mapping.imbalance}<br/>
+                • Focus: <em>${mapping.focus}</em><br/><br/>
+            `);
         }
 
         return `${index + 1}. Mark ${mark} → Element: <strong>${element}</strong>, Orisha: <strong>${mapping.orisha}</strong> — ${energyState}`;
@@ -911,7 +937,7 @@ function decodeIfaWithSpiritualContext(mainCastParam, orientationParam, specific
         : "Ile Baba (Paternal Lineage)";
 
     const latentSection = latentOrishaInsights.length
-        ? `<p><strong>Latent Energies to Focus On:</strong><br/>${latentOrishaInsights.map(item => `${item}`).join("<br/>")}</p>`
+        ? `<p><strong>Latent Orisha Energies & Guidance:</strong><br/>${latentOrishaInsights.join("")}</p>`
         : `<p><strong>✅ All Orisha Energies Are Active:</strong> You are fully aligned at this time.</p>`;
 
     return `
