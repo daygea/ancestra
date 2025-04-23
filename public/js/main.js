@@ -541,6 +541,9 @@ const performUserDivination = async (
                 </p>`).join("")
             : "";
 
+        const spiritualInsight = decodeIfaWithSpiritualContext(mainCast, orientation, specificOrientation, solution, solutionDetails);
+
+
         if (isAdminAuthenticated || freeOdus.includes(mainCast) || isOduPaid(mainCast, orientation, specificOrientation, solution, solutionDetails)) {
         let resultHTML = `
             <h3 style="text-align: center; margin-top:20px; font-weight: bold;">
@@ -560,6 +563,8 @@ const performUserDivination = async (
         if (names) resultHTML += `<p style="font-weight: bold"><u>Names</u></p> ${names}<hr>`;
         if (occupation) resultHTML += `<p style="font-weight: bold"><u>Occupation</u></p> ${occupation}<hr>`;
         resultHTML += `${audioHTML} ${videoHTML} <hr style="clear:both;"/>`;
+
+        resultHTML += `<p style="font-weight: bold"><u>Spiritual Insight</u></p>${spiritualInsight}<hr/>`;
 
         if (credit) resultHTML += `<p style="font-weight: bold;"><u>Credit</u></p> ${credit}`;
 
@@ -841,6 +846,84 @@ document.getElementById("determine-btn").onclick = async () => {
         resultElement.innerHTML = `<p class="alert alert-info" style="text-align:center;">Error loading data: ${error.message}</p>`;
     }
 };
+
+function decodeIfaWithSpiritualContext(mainCastParam, orientationParam, specificOrientationParam, solutionParam, solutionDetailsParam) {
+    const baseOdus = {
+        "Ejiogbe": ["|", "|", "|", "|"],
+        "Oyeku Meji": ["||", "||", "||", "||"],
+        "Iwori Meji": ["||", "|", "|", "||"],
+        "Idi Meji": ["|", "||", "||", "|"],
+        "Irosun Meji": ["|", "|", "||", "||"],
+        "Owonrin Meji": ["||", "||", "|", "|"],
+        "Obara Meji": ["|", "||", "||", "||"],
+        "Okanran Meji": ["||", "||", "||", "|"],
+        "Ogunda Meji": ["|", "|", "|", "||"],
+        "Osa Meji": ["||", "|", "|", "|"],
+        "Ika Meji": ["||", "|", "||", "||"],
+        "Oturupon Meji": ["||", "||", "|", "||"],
+        "Otura Meji": ["|", "||", "|", "|"],
+        "Irete Meji": ["|", "|", "||", "|"],
+        "Ose Meji": ["|", "||", "|", "||"],
+        "Ofun Meji": ["||", "|", "||", "|"]
+    };
+
+    const elements = ["Air", "Fire", "Water", "Earth"];
+    const orishaMapping = {
+        "Air": { orisha: "Orunmila", keywords: ["wisdom", "destiny", "intuition", "clarity"] },
+        "Fire": { orisha: "Sango", keywords: ["courage", "justice", "action", "transformation"] },
+        "Water": { orisha: "Obatala", keywords: ["peace", "compassion", "purity", "forgiveness"] },
+        "Earth": { orisha: "Ogun", keywords: ["work", "discipline", "stability", "manifestation"] }
+    };
+
+    const getOduPattern = (oduName) => {
+        return baseOdus[oduName] || ["|", "|", "|", "|"]; // fallback
+    };
+
+    // Determine if it's one of the first 16 major Odus
+    const isDoubleOdu = Object.keys(baseOdus).includes(mainCastParam);
+    const focusedOdu = isDoubleOdu
+        ? mainCastParam.replace(" Meji", "").replace("Eji", "")
+        : orientationParam === "Positive"
+            ? mainCastParam.split(" ")[1] || mainCastParam.split(" ")[0]
+            : mainCastParam.split(" ")[0];
+
+    const pattern = getOduPattern(`${focusedOdu} Meji`);
+
+    const latentOrishaInsights = [];
+
+    const markInterpretation = pattern.map((mark, index) => {
+        const element = elements[index];
+        const mapping = orishaMapping[element];
+        const isOpen = mark === "|";
+        const energyState = isOpen ? "open (energetically active)" : "closed (energetically latent)";
+
+        if (!isOpen) {
+            latentOrishaInsights.push(
+                `<strong>${mapping.orisha}</strong> — focus on: <em>${mapping.keywords.join(", ")}</em>`
+            );
+        }
+
+        return `${index + 1}. Mark ${mark} → Element: <strong>${element}</strong>, Orisha: <strong>${mapping.orisha}</strong> — ${energyState}`;
+    });
+
+    const spiritualForce = orientationParam === "Positive"
+        ? "Ile Iya (Maternal Lineage)"
+        : "Ile Baba (Paternal Lineage)";
+
+    const latentSection = latentOrishaInsights.length
+        ? `<p><strong>Latent Energies to Focus On:</strong><br/>${latentOrishaInsights.map(item => `${item}`).join("<br/>")}</p>`
+        : `<p><strong>✅ All Orisha Energies Are Active:</strong> You are fully aligned at this time.</p>`;
+
+    return `
+        <p><strong>Odu Focus:</strong> ${focusedOdu}</p>
+        <p><strong>Ancestral Origin:</strong> ${spiritualForce}</p>
+        <hr/>
+        <p><strong>Line-by-Line Interpretation:</strong></p>
+        <ul>${markInterpretation.map(item => `<li>${item}</li>`).join("")}</ul>
+        ${latentSection}
+    `;
+}
+
 
 
 // Admin Logout Function
