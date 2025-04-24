@@ -666,15 +666,29 @@ const displayConfiguration = (oduName) => {
     }, 100);
 };
 // Initialize on page load
-window.onload = function() {
-    populateDropdowns();
-     setTimeout(() => {
-        document.getElementById("preloader").style.display = "none";
-    }, 3000); // Adjust time as needed
-    generateCircularButtons();
+// window.onload = function() {
+//     populateDropdowns();
+//      setTimeout(() => {
+//         document.getElementById("preloader").style.display = "none";
+//     }, 3000); // Adjust time as needed
+//     generateCircularButtons();
    
+//     speechSynthesis.cancel(); // Stop any ongoing speech
+// };
+
+window.onload = async function () {
+    try {
+        await populateDropdowns(); // wait until dropdowns are fully populated
+    } catch (err) {
+        console.error("Dropdowns failed to populate before preloader timeout.");
+    }
+
+    document.getElementById("preloader").style.display = "none"; // hide only after data loads
+
+    generateCircularButtons();
     speechSynthesis.cancel(); // Stop any ongoing speech
 };
+
  // Generate calculator buttons with hidden numbers
 let canClick = true;
 function generateCircularButtons() {
