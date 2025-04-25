@@ -108,6 +108,12 @@ app.get('/api/payment/verify/:reference', async (req, res) => {
   }
 });
 
+// server.js or oduRoutes.js
+app.get('/api/ping', (req, res) => {
+  res.status(200).send("pong");
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

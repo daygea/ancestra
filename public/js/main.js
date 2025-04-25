@@ -665,16 +665,6 @@ const displayConfiguration = (oduName) => {
         }
     }, 100);
 };
-// Initialize on page load
-// window.onload = function() {
-//     populateDropdowns();
-//      setTimeout(() => {
-//         document.getElementById("preloader").style.display = "none";
-//     }, 3000); // Adjust time as needed
-//     generateCircularButtons();
-   
-//     speechSynthesis.cancel(); // Stop any ongoing speech
-// };
 
 window.onload = async function () {
     try {
