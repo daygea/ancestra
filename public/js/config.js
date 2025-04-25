@@ -115,9 +115,9 @@ setTimeout(() => {
 // })();
 
 const SERVER_CANDIDATES = [
-  "http://localhost:10000",                            // local dev
-  "https://ancestra-nhhh.onrender.com",                // Render
-  "https://ancestra.fly.dev/"
+  "http://localhost:10000",
+  "https://ancestra-nhhh.onrender.com",
+  "https://ancestra.fly.dev"
 ];
 
 const pingServer = async (url) => {
