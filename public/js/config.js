@@ -95,27 +95,57 @@ setTimeout(() => {
     }
 })();
 
-// const SERVER_URL = window.location.hostname === "file:" || 'localhost' 
-//   ? 'http://localhost:10000' 
-//   : 'https://ancestra-nhhh.onrender.com';
 
-const SERVER_URL = (() => {
-  // Check if we're in development environment
-  if (window.location.hostname === "localhost" || 
-      window.location.hostname === "127.0.0.1" || 
-      window.location.protocol === "file:") {
-    return 'http://localhost:10000';
-  }
+// const SERVER_URL = (() => {
+//   // Check if we're in development environment
+//   if (window.location.hostname === "localhost" || 
+//       window.location.hostname === "127.0.0.1" || 
+//       window.location.protocol === "file:") {
+//     return 'http://localhost:10000';
+//   }
   
-  // Check if we're on GitHub Pages or your custom domain
-  if (window.location.hostname === 'daygea.github.io' || 
-      window.location.hostname === 'ancestra.aokfoundation.org') {
-    return 'https://ancestra-nhhh.onrender.com';
-  }
+//   // Check if we're on GitHub Pages or your custom domain
+//   if (window.location.hostname === 'daygea.github.io' || 
+//       window.location.hostname === 'ancestra.aokfoundation.org') {
+//     return 'https://ancestra-nhhh.onrender.com';
+//   }
   
-  // Default to Render.com backend (this is redundant now, could remove)
-  return 'https://ancestra-nhhh.onrender.com';
+//   // Default to Render.com backend (this is redundant now, could remove)
+//   return 'https://ancestra-nhhh.onrender.com';
+// })();
+
+const SERVER_CANDIDATES = [
+  "http://localhost:10000",                            // local dev
+  "https://ancestra-nhhh.onrender.com"                // Render
+];
+
+const pingServer = async (url) => {
+  try {
+    const response = await fetch(`${url}/api/ping`, { method: 'GET', mode: 'cors' });
+    return response.ok;
+  } catch (err) {
+    return false;
+  }
+};
+
+const getResponsiveServer = async () => {
+  for (const url of SERVER_CANDIDATES) {
+    if (await pingServer(url)) {
+      console.log("✅ Connected to server:", url);
+      return url;
+    }
+  }
+
+  console.warn("⚠️ No servers responded, defaulting to last candidate.");
+  return SERVER_CANDIDATES[SERVER_CANDIDATES.length - 1];
+};
+
+let SERVER_URL = ""; // placeholder for global usage
+
+(async () => {
+  SERVER_URL = await getResponsiveServer();
 })();
+
 
 // async function hashPassword(password) {
 //     const encoder = new TextEncoder();
