@@ -465,7 +465,7 @@ function printDivinationResult() {
         </head>
         <body>
         <center><a href="/" style="color: green; text-decoration: none;"><img src="public/img/logo.png" style="height:75px" alt="Ancestra Logo"/></a></center>
-        <center><p>Mo juba <b>OLODUMARE</b>, Ajagunmale, Awonomaja, Odu Ologbooje, Egan, Gbogbo Eleye, Irinwo Imale, Igba Imale, Okanlenirinwo Imale, Otalelugba Imale, Oduduwa, Gbogbo Oba Alade. Mo juba Gbogbo Ajunilo.</p></center>
+        <center><p>Mo juba <b>OLODUMARE</b>, Ajagunmale, Awonomaja, Odu Ologbooje, Egan, Gbogbo Eleye, Irinwo Imale, Igba Imale, Okanlenirinwo Imale, Otalelugba Imale, Oduduwa, Gbogbo Oba Alade. Mo juba Eegun, mo si juba gbogbo Ajunilo.</p></center>
             
            <center> ${printHeader} </center> <br/>
             ${printContent}
