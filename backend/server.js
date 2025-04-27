@@ -17,7 +17,9 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 const oduData = require('./data/oduData');
 const numerologyRoutes = require("./routes/numerology");
 const divinationRoutes = require('./routes/divination');
+const configRoutes = require('./routes/configRoutes');
 
+app.use('/api/config/', configRoutes);
 app.use("/api/numerology", numerologyRoutes);
 app.use('/api/divination', divinationRoutes);
 

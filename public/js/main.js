@@ -1,5 +1,59 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
+let freeOdus = []; // This will store the final result
+
+const fetchFreeOdus = async () => {
+  // Ensure SERVER_URL is initialized (from your server detection code)
+  if (!SERVER_URL) {
+    console.error("SERVER_URL is not initialized yet");
+    return;
+  }
+
+  const url = `${SERVER_URL}/api/config/free-odus`;
+  console.log("Fetching freeOdus from:", url);
+
+  try {
+    const response = await fetch(url, {
+      headers: { 
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+    }
+
+    const data = await response.json();
+    
+    // Validate response structure
+    if (data && Array.isArray(data.freeOdus)) {
+      freeOdus = data.freeOdus; // Set the global variable
+      // console.log("Successfully loaded freeOdus:", freeOdus);
+      return freeOdus;
+    } else {
+      throw new Error("Invalid response format - expected { freeOdus: [...] }");
+    }
+  } catch (error) {
+    console.error("Failed to fetch freeOdus:", error);
+    // You might want to set a default value here if the fetch fails
+    freeOdus = ["Ejiogbe"]; // Example fallback
+    return freeOdus;
+  }
+};
+
+// Usage example:
+(async () => {
+  // Wait for SERVER_URL to be initialized (from your server detection code)
+  while (!SERVER_URL) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  
+  await fetchFreeOdus();
+  
+})();
+
     // Encrypt data using AES
 function encryptData(data) {
     return CryptoJS.AES.encrypt(JSON.stringify(data), SECRET_KEY).toString();
@@ -465,7 +519,7 @@ function printDivinationResult() {
         </head>
         <body>
         <center><a href="/" style="color: green; text-decoration: none;"><img src="public/img/logo.png" style="height:75px" alt="Ancestra Logo"/></a></center>
-        <center><p>Mo juba <b>OLODUMARE</b>, Ajagunmale, Awonomaja, Odu Ologbooje, Egan, Gbogbo Eleye, Irinwo Imale, Igba Imale, Okanlenirinwo Imale, Otalelugba Imale, Oduduwa, Gbogbo Oba Alade. Mo juba Eegun, mo si juba gbogbo Ajunilo.</p></center>
+        <center><p>Mo juba <b>OLODUMARE</b>, Ajagunmale, Awonomaja, Odu Ologbooje, Egan, Gbogbo Eleye, Irinwo Imale, Igba Imale, Okanlenirinwo Imale, Otalelugba Imale, Oduduwa, Gbogbo Oba Alade. Mo juba Egungun, mo si juba gbogbo Ajunilo.</p></center>
             
            <center> ${printHeader} </center> <br/>
             ${printContent}
@@ -667,6 +721,7 @@ const displayConfiguration = (oduName) => {
 };
 
 window.onload = async function () {
+    
     try {
         await populateDropdowns(); // wait until dropdowns are fully populated
     } catch (err) {

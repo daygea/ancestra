@@ -1,6 +1,3 @@
-// NS6224.HOSTGATOR.COM
-// NS6223.HOSTGATOR.COM
-// Disable printing
 // Allow printing only if admin is authenticated
 window.onbeforeprint = function () {
     if (!isAdminAuthenticated) {
@@ -95,25 +92,6 @@ setTimeout(() => {
     }
 })();
 
-
-// const SERVER_URL = (() => {
-//   // Check if we're in development environment
-//   if (window.location.hostname === "localhost" || 
-//       window.location.hostname === "127.0.0.1" || 
-//       window.location.protocol === "file:") {
-//     return 'http://localhost:10000';
-//   }
-  
-//   // Check if we're on GitHub Pages or your custom domain
-//   if (window.location.hostname === 'daygea.github.io' || 
-//       window.location.hostname === 'ancestra.aokfoundation.org') {
-//     return 'https://ancestra-nhhh.onrender.com';
-//   }
-  
-//   // Default to Render.com backend (this is redundant now, could remove)
-//   return 'https://ancestra-nhhh.onrender.com';
-// })();
-
 const SERVER_CANDIDATES = [
   "http://localhost:10000",
   "https://ancestra-nhhh.onrender.com",
@@ -146,17 +124,4 @@ let SERVER_URL = ""; // placeholder for global usage
 (async () => {
   SERVER_URL = await getResponsiveServer();
 })();
-
-
-// async function hashPassword(password) {
-//     const encoder = new TextEncoder();
-//     const data = encoder.encode(password);
-//     const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-//     return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-// }
-
-// hashPassword("").then(console.log);
-
-// openAI - "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"
-
 
