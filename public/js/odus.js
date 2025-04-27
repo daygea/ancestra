@@ -18,17 +18,3 @@
     { name: "Ofun", symbol: "⚫⚫\n⚫\n⚫⚫\n⚫", meaning: "Total purity, destiny fulfillment, transformation, fulfillment, wisdom, and spiritual completion. You are becoming whole, listen to divine guidance" }
 ];
 
-const freeOdus = [
-    "Ejiogbe", 
-    "Oyeku Meji", 
-    "Iwori Meji", 
-    "Idi Meji", 
-    "Irosun Ika", 
-    "Owonrin Ogunda",
-    "Owonrin Ose", 
-    "Osa Ogbe", 
-    "Osa Owonrin",
-    "Irete Ose",
-    "Ose Otura",
-];
-
