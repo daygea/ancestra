@@ -519,7 +519,7 @@ function printDivinationResult() {
         </head>
         <body>
         <center><a href="/" style="color: green; text-decoration: none;"><img src="public/img/logo.png" style="height:75px" alt="Ancestra Logo"/></a></center>
-        <center><p>Mo juba <b>OLODUMARE</b>, Ajagunmale, Awonomaja, Odu Ologbooje, Egan, Gbogbo Eleye, Irinwo Imale, Igba Imale, Okanlenirinwo Imale, Otalelugba Imale, Oduduwa, Gbogbo Oba Alade. Mo juba Egungun, mo si juba gbogbo Ajunilo.</p></center>
+        <center><p>Mo juba <b>OLODUMARE</b>, Ajagunmale, Awonomaja, Odu Ologbooje, Egan, Gbogbo Eleye, Egungun, Irinwo Imale, Igba Imale, Okanlenirinwo Imale, Otalelugba Imale, Oduduwa. Mo juba Gbogbo Oba Alade, mo si juba gbogbo Ajunilo.</p></center>
             
            <center> ${printHeader} </center> <br/>
             ${printContent}
@@ -862,9 +862,9 @@ document.getElementById("determine-btn").onclick = async () => {
 
         const html = `
             <h3 style="text-align:center; font-weight:bold; margin-top:20px;">Revelation for ${data.fullname}</h3><hr/>
-            <p><strong>Destiny - ${data.destiny.label}</strong></p><p>${data.destiny.meaning}</p><hr/>
-            <p><strong>Soul Urge  - ${data.soulUrge.label}</strong></p><p>${data.soulUrge.meaning}</p><hr/>
-            <p><strong>How the world sees you - ${data.quiescent.label}</strong></p><p>${data.quiescent.meaning}</p><hr/>
+            <p style="color:red;"><strong>Destiny/Life path - ${data.destiny.label}</strong></p><p>${data.destiny.meaning}</p><hr/>
+            <p style="color:red;"><strong>Soul Urge  - ${data.soulUrge.label}</strong></p><p>${data.soulUrge.meaning}</p><hr/>
+            <p style="color:red;"><strong>How the world sees you - ${data.quiescent.label}</strong></p><p>${data.quiescent.meaning}</p><hr/>
 
             <p><strong>Today's Energy:</strong> ${data.vibrations.day}</p>
             <p><strong>This Week's Energy:</strong> ${data.vibrations.week}</p>
