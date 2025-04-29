@@ -2,6 +2,8 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 let freeOdus = []; // This will store the final result
 
+const preloader = document.getElementById('preloader');
+
 const fetchFreeOdus = async () => {
   // Ensure SERVER_URL is initialized (from your server detection code)
   if (!SERVER_URL) {
@@ -519,7 +521,7 @@ function printDivinationResult() {
         </head>
         <body>
         <center><a href="/" style="color: green; text-decoration: none;"><img src="public/img/logo.png" style="height:75px" alt="Ancestra Logo"/></a></center>
-        <center><p>Mo juba <b>OLODUMARE</b>, Ajagunmale, Awonomaja, Odu Ologbooje, Egan, Gbogbo Eleye, Egungun, Irinwo Imale, Igba Imale, Okanlenirinwo Imale, Otalelugba Imale, Oduduwa. Mo juba Gbogbo Oba Alade, mo si juba gbogbo Ajunilo.</p></center>
+        <center><p>Mo juba <b>OLODUMARE</b>, Ajagunmale, Awonomaja, Odu Ologbooje, Egan, Gbogbo Eleye, Eegun, Irinwo Imale, Igba Imale, Okanlenirinwo Imale, Otalelugba Imale, Oduduwa. Mo juba gbogbo Oba Alade, mo si juba gbogbo Ajunilo.</p></center>
             
            <center> ${printHeader} </center> <br/>
             ${printContent}
@@ -552,7 +554,12 @@ const performUserDivination = async (
 
     const orientationText = orientation === "Positive" ? "Ire" : "Ayewo";
     const resultElement = document.getElementById("divinationResult");
-    resultElement.innerHTML = "<p style='text-align:center'><em>Loading divination details...</em></p>";
+
+    preloader.style.display = 'flex';
+    preloader.style.justifyContent = 'center';
+    preloader.style.alignItems = 'center';
+
+    // resultElement.innerHTML = "<p style='text-align:center'><em>Loading divination details...</em></p>";
 
     try {
         const response = await fetch(`${SERVER_URL}/api/odu/${encodeURIComponent(mainCast)}`);
@@ -594,6 +601,8 @@ const performUserDivination = async (
                     </a> of ${item.author}
                 </p>`).join("")
             : "";
+
+            preloader.style.display = 'none';
 
         const spiritualInsight = decodeIfaWithSpiritualContext(mainCast, orientation, specificOrientation, solution, solutionDetails);
 
@@ -653,6 +662,7 @@ const performUserDivination = async (
     }
 
     } catch (error) {
+         preloader.style.display = 'none';
         resultElement.innerHTML = `<p style="text-align: center;" class="alert alert-info">Error loading divination data: ${error.message}</p>`;
     }
 
@@ -776,6 +786,10 @@ function generateCircularButtons() {
 async function displayMeaning(number, selectedButton) {
     resetSpeechState();
 
+    preloader.style.display = 'flex';
+    preloader.style.justifyContent = 'center';
+    preloader.style.alignItems = 'center';
+
     // Get the single-digit numerology number
     const numerologyNumber = number;
     const resultDiv = document.getElementById("result");
@@ -794,6 +808,7 @@ async function displayMeaning(number, selectedButton) {
         }
 
         const data = await response.json();
+        preloader.style.display = 'none';
 
         // Display the fetched data in the result section
         resultElement.innerHTML = `
@@ -813,6 +828,7 @@ async function displayMeaning(number, selectedButton) {
         smoothScrollTo(resultElement.offsetTop, 2000);
 
     } catch (error) {
+        preloader.style.display = 'none';
         console.error('Error fetching numerology data:', error);
         resultElement.innerHTML = `<p style="text-align: center;" class="alert alert-info">Error loading numerology data: ${error.message}</p>`;
     }
@@ -842,11 +858,15 @@ document.getElementById("determine-btn").onclick = async () => {
 
     if (!birthdate) {
         resultDiv.style.display = "block";
-        resultDiv.innerHTML = "<span style='color:red; font-size:14px'>Select your birth date.</span>";
+        resultDiv.innerHTML = "<span style='color:red; font-size:14px'>Please select your birth date.</span>";
         return;
     }
 
-    resultElement.innerHTML = "<p style='text-align:center;'><em>Loading your numerology insights...</em></p>";
+    preloader.style.display = 'flex';
+    preloader.style.justifyContent = 'center';
+    preloader.style.alignItems = 'center';
+
+    // resultElement.innerHTML = "<p style='text-align:center;'><em>Loading your numerology insights...</em></p>";
     configurationElement.innerHTML = `<img class="moving-bg" src="public/img/bird.gif" />`;
 
     try {
@@ -855,6 +875,9 @@ document.getElementById("determine-btn").onclick = async () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ fullname: fullName, birthdate })
         });
+
+        preloader.style.display = 'none';
+
 
         if (!response.ok) throw new Error("Failed to get numerology insights.");
 
@@ -895,6 +918,7 @@ document.getElementById("determine-btn").onclick = async () => {
                 ` : ""}
             `;
         } else {
+            preloader.style.display = 'none';
             resultElement.innerHTML = html + "<p>No astrology data available.</p>";
         }
 
@@ -902,6 +926,7 @@ document.getElementById("determine-btn").onclick = async () => {
         smoothScrollTo(resultElement.offsetTop, 2000);
 
     } catch (error) {
+        preloader.style.display = 'none';
         resultElement.innerHTML = `<p class="alert alert-info" style="text-align:center;">Error loading data: ${error.message}</p>`;
     }
 };
