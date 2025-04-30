@@ -48,11 +48,11 @@ exports.calculateNumerology = (req, res) => {
             meaning: numerologyMeanings[nameDetails.quiescent]
         },
         vibrations: {
-            day: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentDay}`)],
-            week: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentWeek}`)],
-            month: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}`)],
-            year: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}`)],
-            lifetime: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`)]
+            day: {number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentDay}`), meaning: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentDay}`)]},
+            week: {number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentWeek}`), meaning: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentWeek}`)]},
+            month: {number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}`), meaning: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}`)]},
+            year: {number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}`), meaning: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}`)]},
+            lifetime: {number: getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`), meaning: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`)]}
         },
         astrology: getZodiacSign(birthdate)
     };
