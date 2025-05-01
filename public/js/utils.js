@@ -145,3 +145,89 @@ async function hashPassword(password) {
     const hashBuffer = await crypto.subtle.digest("SHA-256", data);
     return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
+
+function printDivinationResult() {
+    if (!isAdminAuthenticated) {
+        alert("Only admins can print.");
+        return;
+    }
+    const printHeader = document.getElementById("configurationResult").innerHTML;
+    const printContent = document.getElementById("divinationResult").innerHTML;
+
+    // Create an iframe
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Print - Ancestra - Be Illuminated...</title>
+            <style>
+            body{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            color: green;
+            background-color: white;
+            background-image: url('../img/background.jpg');
+            background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+            font-family: Courier, monospace;
+            font-weight: bold;
+         }
+        .odu-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        /*    width: fit-content;*/
+            width: 12%;
+            margin: auto;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .odu-header {
+            position: absolute;
+            top: -25px; /* Adjust this value to move it up/down */
+            z-index: 2;
+            width: 80px;
+        }
+        .odu-footer {
+            position: absolute;
+            bottom: -25px; /* Adjust this value to move it up/down */
+            z-index: 2;
+            width: 80px;
+        }
+        .odu-line-container {
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+            position: relative;
+            z-index: 1;
+        }
+        .odu-line {
+            width: 30px;
+            height: 50px;
+        }
+        @media print {
+            body { visibility: visible; }
+        }
+            </style>
+        </head>
+        <body>
+        <center><a href="/" style="color: green; text-decoration: none;"><img src="public/img/logo.png" style="height:75px" alt="Ancestra Logo"/></a></center>
+        <center><p>Mo juba <b>OLODUMARE</b>, Ajagunmale, Awonomaja, Odu Ologbooje, Egan, Gbogbo Eleye, Eegun, Irinwo Imale, Igba Imale, Okanlenirinwo Imale, Otalelugba Imale, Oduduwa. Mo juba gbogbo Oba Alade ati gbogbo Ajunilo.</p></center>
+            
+           <center> ${printHeader} </center> <br/>
+            ${printContent}
+
+            <center> Ire o. </center>
+        </body>
+        </html>
+    `);
+    
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => printWindow.print(), 500); // Give time to render
+}
