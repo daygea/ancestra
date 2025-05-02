@@ -12,7 +12,6 @@ const fetchFreeOdus = async () => {
   }
 
   const url = `${SERVER_URL}/api/config/free-odus`;
-  console.log("Fetching freeOdus from:", url);
 
   try {
     const response = await fetch(url, {
@@ -32,7 +31,7 @@ const fetchFreeOdus = async () => {
     // Validate response structure
     if (data && Array.isArray(data.freeOdus)) {
       freeOdus = data.freeOdus; // Set the global variable
-      // console.log("Successfully loaded freeOdus:", freeOdus);
+     
       return freeOdus;
     } else {
       throw new Error("Invalid response format - expected { freeOdus: [...] }");
@@ -120,7 +119,6 @@ async function payForOdu(oduName, orientation, specificOrientation, solution, so
     }
     
     const { key } = await keyResponse.json();
-    console.log('Received Paystack key:', key); // Debug log
 
     // 2. Initialize payment
     const handler = PaystackPop.setup({
@@ -153,7 +151,7 @@ async function payForOdu(oduName, orientation, specificOrientation, solution, so
           payButton.disabled = false;
           payButton.textContent = 'Donate Now';
         }
-        console.log("Payment window was closed");
+       
       }
     });
 
