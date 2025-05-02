@@ -23,6 +23,22 @@ app.use('/api/config/', configRoutes);
 app.use("/api/numerology", numerologyRoutes);
 app.use('/api/divination', divinationRoutes);
 
+// Secure endpoint for sensitive data
+app.get('/api/secure-config', (req, res) => {
+
+  // Return sensitive data
+  res.json({
+    secretKey: process.env.SECRET_KEY || "DqUHBw7iFj3ia0pyp+QIvKJ5NgJFXE2PcZk95Kt2w6qpqOZ82iAF4Kx88Khb2KFl",
+    storedHashedPasswords: [
+      "f3b4affffec5ec69ea24a382c3178b7440986fbe9b537b7afe90c5c1337d0e77",
+      "43dc88eaab6c2de6208ba193a48ef66309f05e810d3af47e5c654218d8bfadd8",
+      "4849a6a362ae149353a4077359f4886f6a1e89399c6aa90f3d0678d129c833eb",
+      "01fcd586d878e01b7fc94d5ba229fe5a03e228ec54df1638cecced060c9b4e1e",
+      "005bd5b31e3c9fe8c7aa4fe1cb967787ac6a1a0d539282168c4ad8fa9f364984"
+    ]
+  });
+});
+
 
 // Route to get Odu data by name
 app.get('/api/odu/:name', (req, res) => {

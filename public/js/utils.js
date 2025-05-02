@@ -114,8 +114,7 @@ const smoothScrollTo = (targetPosition, duration) => {
     requestAnimationFrame(animation);
 };
 
-const SECRET_KEY = "DqUHBw7iFj3ia0pyp+QIvKJ5NgJFXE2PcZk95Kt2w6qpqOZ82iAF4Kx88Khb2KFl";
-    // Encrypt data using AES
+// Encrypt data using AES
 function encryptData(data) {
     return CryptoJS.AES.encrypt(JSON.stringify(data), SECRET_KEY).toString();
 }
@@ -129,14 +128,48 @@ function decryptData(encryptedData) {
     }
 }
 
-// List of pre-hashed admin passwords (add more if needed)
-const storedHashedPasswords = [
-    "f3b4affffec5ec69ea24a382c3178b7440986fbe9b537b7afe90c5c1337d0e77",
-    "43dc88eaab6c2de6208ba193a48ef66309f05e810d3af47e5c654218d8bfadd8",
-    "4849a6a362ae149353a4077359f4886f6a1e89399c6aa90f3d0678d129c833eb",
-    "01fcd586d878e01b7fc94d5ba229fe5a03e228ec54df1638cecced060c9b4e1e",
-    "005bd5b31e3c9fe8c7aa4fe1cb967787ac6a1a0d539282168c4ad8fa9f364984"
-];
+let SECRET_KEY = "";
+let storedHashedPasswords = [];
+
+const fetchSecureConfig = async () => {
+      // Ensure SERVER_URL is initialized (from your server detection code)
+  if (!SERVER_URL) {
+    console.error("SERVER_URL is not initialized yet");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${SERVER_URL}/api/secure-config`, {
+      headers: {
+         "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+    }
+
+    const data = await response.json();
+    SECRET_KEY = data.secretKey;
+    storedHashedPasswords = data.storedHashedPasswords;
+    
+  } catch (error) {
+    console.error("Failed to load secure config:", error);
+  }
+};
+
+(async () => {
+  // Wait for SERVER_URL to be initialized (from your server detection code)
+  while (!SERVER_URL) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  
+  await fetchSecureConfig();
+  
+})();
+
 
 // Function to hash the password using SHA-256
 async function hashPassword(password) {

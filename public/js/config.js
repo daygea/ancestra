@@ -94,34 +94,49 @@ setTimeout(() => {
 
 const SERVER_CANDIDATES = [
   "http://localhost:10000",
-  "https://ancestra-nhhh.onrender.com",
+  "https://ancestra-nhhh.onrender.com", 
   "https://ancestra.fly.dev"
 ];
 
-const pingServer = async (url) => {
+// Current active server
+let SERVER_URL = SERVER_CANDIDATES[SERVER_CANDIDATES.length - 1]; // Start with fallback
+let isCheckingServer = false;
+
+// Health check with retries
+const checkServer = async (url) => {
   try {
-    const response = await fetch(`${url}/api/ping`, { method: 'GET', mode: 'cors' });
-    return response.ok;
-  } catch (err) {
+    const res = await fetch(`${url}/api/ping`, {
+      signal: AbortSignal.timeout(3000)
+    });
+    return res.ok;
+  } catch {
     return false;
   }
 };
 
-const getResponsiveServer = async () => {
+// Find first working server (with retries)
+const updateActiveServer = async () => {
+  if (isCheckingServer) return;
+  isCheckingServer = true;
+  
   for (const url of SERVER_CANDIDATES) {
-    if (await pingServer(url)) {
-      console.log("✅ Connected to server:", url);
-      return url;
+    if (await checkServer(url)) {
+      if (SERVER_URL !== url) {
+        console.log(`Switched to ${url}`);
+        SERVER_URL = url;
+      }
+      break;
     }
   }
-
-  console.warn("⚠️ No servers responded, defaulting to last candidate.");
-  return SERVER_CANDIDATES[SERVER_CANDIDATES.length - 1];
+  
+  isCheckingServer = false;
 };
 
-let SERVER_URL = ""; // placeholder for global usage
+// Background health checks (every 30 seconds)
+setInterval(updateActiveServer, 30000);
 
+// Initialize on startup
 (async () => {
-  SERVER_URL = await getResponsiveServer();
+  await updateActiveServer();
+  console.log("Initial server:", SERVER_URL);
 })();
-

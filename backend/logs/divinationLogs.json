@@ -494,5 +494,69 @@
     "solution": "Ebo",
     "solutionDetails": "Akoru",
     "timestamp": "2025-04-29T10:53:40.572Z"
+  },
+  {
+    "oduName": "Ejiogbe",
+    "orientation": "Positive",
+    "specificOrientation": "Aiku",
+    "solution": "Ebo",
+    "solutionDetails": "Akoru",
+    "timestamp": "2025-05-02T09:36:45.817Z"
+  },
+  {
+    "oduName": "Iwori Meji",
+    "orientation": "Positive",
+    "specificOrientation": "Aiku",
+    "solution": "Ebo",
+    "solutionDetails": "Akoru",
+    "timestamp": "2025-05-02T11:09:53.835Z"
+  },
+  {
+    "oduName": "Oturupon Meji",
+    "orientation": "Positive",
+    "specificOrientation": "Aiku",
+    "solution": "Ebo",
+    "solutionDetails": "Akoru",
+    "timestamp": "2025-05-02T11:11:03.841Z"
+  },
+  {
+    "oduName": "Ejiogbe",
+    "orientation": "Positive",
+    "specificOrientation": "Aiku",
+    "solution": "Ebo",
+    "solutionDetails": "Akoru",
+    "timestamp": "2025-05-02T11:21:14.020Z"
+  },
+  {
+    "oduName": "Ejiogbe",
+    "orientation": "Negative",
+    "specificOrientation": "Ejo",
+    "solution": "Adimu",
+    "solutionDetails": "Osha",
+    "timestamp": "2025-05-02T11:21:31.994Z"
+  },
+  {
+    "oduName": "Ejiogbe",
+    "orientation": "Positive",
+    "specificOrientation": "Aiku",
+    "solution": "Ebo",
+    "solutionDetails": "Akoru",
+    "timestamp": "2025-05-02T12:16:29.528Z"
+  },
+  {
+    "oduName": "Ejiogbe",
+    "orientation": "Positive",
+    "specificOrientation": "Aiku",
+    "solution": "Ebo",
+    "solutionDetails": "Akoru",
+    "timestamp": "2025-05-02T12:28:22.771Z"
+  },
+  {
+    "oduName": "Ejiogbe",
+    "orientation": "Positive",
+    "specificOrientation": "Aiku",
+    "solution": "Ebo",
+    "solutionDetails": "Akoru",
+    "timestamp": "2025-05-02T12:30:17.253Z"
   }
 ]
