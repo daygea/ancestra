@@ -1,0 +1,72 @@
+[
+  {
+    "userMessage": "hello",
+    "botResponse": "Hello! How can I assist you today?",
+    "timestamp": "2025-05-03T15:43:17.966Z"
+  },
+  {
+    "userMessage": "i want to know about orunmila",
+    "botResponse": "Orunmila is the deity of wisdom, knowledge, and divination. He is the custodian of Ifa and the guide for humanity in understanding fate and destiny.",
+    "timestamp": "2025-05-03T15:43:50.549Z"
+  },
+  {
+    "userMessage": "how many orisha do we have in total",
+    "botResponse": "Sorry, I couldn't process your request.",
+    "timestamp": "2025-05-03T15:48:08.203Z"
+  },
+  {
+    "userMessage": "hello you",
+    "botResponse": "Hello! How can I assist you today?",
+    "timestamp": "2025-05-03T15:58:02.172Z"
+  },
+  {
+    "userMessage": "how many orisha do we have in total",
+    "botResponse": "In the Yoruba religion, it is believed that there are hundreds of Orishas, with some sources estimating there could be over 400. However, only a portion of them are commonly venerated. The number of Orishas can vary among communities and practitioners as some are more localized or less widely recognized. Would you like information on specific Orishas?",
+    "timestamp": "2025-05-03T15:58:22.362Z"
+  },
+  {
+    "userMessage": "yes, orisha eeko",
+    "botResponse": "I'm sorry, but there seems to be a misunderstanding. \"Eeko\" is not recognized as a name of any specific Orisha in the Yoruba pantheon. The Yoruba religion includes many deities such as Obatala, Oshun, Shango, Yemaya, Oya, Orunmila, Eshu, Ogun, and others. Could you please verify the name or provide more details?",
+    "timestamp": "2025-05-03T15:59:04.108Z"
+  },
+  {
+    "userMessage": "hello",
+    "botResponse": "Hello! How can I assist you today?",
+    "timestamp": "2025-05-03T16:09:18.786Z"
+  },
+  {
+    "userMessage": "is there any orisha that is particular to lagos state in nigeria",
+    "botResponse": "Sorry, I couldn't process your request.",
+    "timestamp": "2025-05-03T16:09:45.939Z"
+  },
+  {
+    "userMessage": "hello",
+    "botResponse": "Hello! How can I assist you today?",
+    "timestamp": "2025-05-03T16:17:12.132Z"
+  },
+  {
+    "userMessage": "which orisha is particular to lagos state",
+    "botResponse": "Hi there! What would you like to know?",
+    "timestamp": "2025-05-03T16:17:28.696Z"
+  },
+  {
+    "userMessage": "orisha of lagos state",
+    "botResponse": "The patron Orisha of Lagos State is Ogun, the deity of iron and metallurgy. Ogun is often associated with civilization and culture. However, it should be noted that Lagos, having a large Yoruba population, is a city filled with diverse practitioners of the Yoruba religion, and thus, many Orishas are worshipped there.",
+    "timestamp": "2025-05-03T16:17:49.572Z"
+  },
+  {
+    "userMessage": "hello",
+    "botResponse": "Hello! How can I assist you today?",
+    "timestamp": "2025-05-03T16:19:18.691Z"
+  },
+  {
+    "userMessage": "do you know about eyo",
+    "botResponse": "Yes, I can certainly provide information on Eyo. \n\nEyo refers to a masquerade festival in Lagos, Nigeria, and it is one of the traditional festivals of the Yoruba people. It is unique to the city and is widely believed to be the forerunner of the modern day carnival in Brazil. The Eyo festival, otherwise known as the Adamu Orisha Play, is staged in honor of deceased Lagos traditional rulers and notable personalities. It also marks the end of the yearly Eyo Festival.\n\nDuring the festival, participants wear a wide-brimmed hat, which is known as an 'agbada', covering their entire body. The Eyo festival is also a tourist attraction. It's a very colorful parade and a sight to behold. \n\nIs there anything else you'd like to know about Yoruba tradition or spirituality?",
+    "timestamp": "2025-05-03T16:19:36.491Z"
+  },
+  {
+    "userMessage": "who is obaluaye",
+    "botResponse": "Obaluaye, also known as Obaluaie, is a powerful deity in Yoruba spirituality, specifically in the Ifa tradition. He is considered the god of the earth and of infectious diseases, particularly smallpox, leprosy, and AIDS. However, he is not only a bringer of disease but also a healer. His name means \"King of the Earth\" and he is often appealed to for healing and protection against disease. Despite his association with illness, Obaluaye is a highly respected and revered deity for his power over life and death.",
+    "timestamp": "2025-05-04T06:25:10.275Z"
+  }
+]

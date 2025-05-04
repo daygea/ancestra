@@ -428,6 +428,52 @@ button:hover {
     cursor: pointer;
   }
 
+  #waveform-container {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  height: 30px;
+  align-items: end;
+}
+
+#waveform-container.paused {
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+
+/* Pause animation when .paused is applied */
+#waveform-container.paused .wave-bar {
+  animation-play-state: paused !important;
+}
+
+
+.wave-bar {
+  width: 4px;
+  height: 100%;
+  background: green;
+  animation: pulse 1s infinite ease-in-out;
+}
+
+.wave-bar:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.wave-bar:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.wave-bar:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.wave-bar:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+  0%, 100% { height: 10%; }
+  50% { height: 100%; }
+}
+
+
 /* Responsive styles */
 @media screen and (max-width: 768px) {
     #chatbot-container {

@@ -122,7 +122,7 @@ const updateActiveServer = async () => {
   for (const url of SERVER_CANDIDATES) {
     if (await checkServer(url)) {
       if (SERVER_URL !== url) {
-        console.log(`Switched to ${url}`);
+        // console.log(`Switched to ${url}`);
         SERVER_URL = url;
       }
       break;
@@ -138,5 +138,5 @@ setInterval(updateActiveServer, 30000);
 // Initialize on startup
 (async () => {
   await updateActiveServer();
-  console.log("Initial server:", SERVER_URL);
+  // console.log("Initial server:", SERVER_URL);
 })();

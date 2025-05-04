@@ -56,7 +56,29 @@ function appendMessage(message, sender = 'bot') {
 }
 
 async function getAIResponse() {
-    const apiKey = "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";  // Replace this securely
+    
+     let apiKey = "";
+     try {
+        const response = await fetch(`${SERVER_URL}/api/secure-config`, {
+          headers: {
+             "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+        }
+
+        const data = await response.json();
+
+        apiKey = data.openAiApiKey;
+        
+      } catch (error) {
+        console.error("Failed to load secure config with openAiApiKey", error);
+      }
+
     const apiUrl = "https://api.openai.com/v1/chat/completions";
 
     const headers = {
@@ -79,7 +101,7 @@ async function getAIResponse() {
 
     const result = await response.json();
     return result.choices[0].message.content.trim();
-    // return translateToSelectedLanguage(result.choices[0].message.content.trim());
+
 }
 
 async function getBotResponse(userInput) {
@@ -97,7 +119,6 @@ async function getBotResponse(userInput) {
     // If only one match, return the response
     if (possibleResponses.length === 1) {
         return possibleResponses[0];
-        // return translateToSelectedLanguage(possibleResponses[0]);
     }
 
     // If multiple matches found, ask for clarification
@@ -152,6 +173,8 @@ async function sendMessage() {
     chatHistory.push({ role: "assistant", content: response });
 
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    await logChat(userMessage, response);
+
 }
 
 function checkIfaKnowledgeBase(userMessage) {
@@ -167,4 +190,16 @@ function resetChatMemory() {
     chatHistory = [
         { role: "system", content: "You are a helpful assistant specializing in Ifa divination and Yoruba spirituality." }
     ];
+}
+
+async function logChat(userMessage, botResponse) {
+    try {
+        await fetch(`${SERVER_URL}/api/chat/log`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userMessage, botResponse })
+        });
+    } catch (error) {
+        console.error("Failed to log chat:", error);
+    }
 }

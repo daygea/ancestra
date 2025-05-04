@@ -24,26 +24,68 @@ function togglePlayPause() {
     isPlaying = true;
 }
 
+
+function toggleWaveform(show) {
+  const waveform = document.getElementById("waveform-container");
+  if (show) {
+    waveform.style.display = "flex";
+    waveform.classList.remove("paused");
+  } else {
+    waveform.classList.add("paused");
+  }
+}
+
+
 function playResult() {
-    const text = document.getElementById("divinationResult").textContent;
+  const text = document.getElementById("divinationResult").textContent.trim();
+  const btn = document.getElementById("playPauseBtn");
 
-    if (!text.trim()) return;
+  if (!text) return;
 
-    // Stop any ongoing speech before playing new one
-    window.speechSynthesis.cancel();
+  if (isPlaying && !isPaused) {
+    window.speechSynthesis.pause();
+    isPaused = true;
+    btn.innerHTML = "▶️ Resume Voice";
+    toggleWaveform(false);
+    return;
+  }
 
-    speech = new SpeechSynthesisUtterance(text);
-    speech.lang = "en-US"; // Change this for Yoruba support
-
-    speech.onend = () => {
-        isPlaying = false;
-        isPaused = false;
-        document.getElementById("playPauseBtn").innerHTML = "🔊 Play Voice"; // Reset button
-    };
-
-    window.speechSynthesis.speak(speech);
-    isPlaying = true;
+  if (isPlaying && isPaused) {
+    window.speechSynthesis.resume();
     isPaused = false;
+    btn.innerHTML = "⏸️ Pause Voice";
+    toggleWaveform(true);
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const voices = window.speechSynthesis.getVoices();
+  const yorubaVoice = voices.find(v => v.lang.toLowerCase().includes("yo"));
+
+  speech = new SpeechSynthesisUtterance(text);
+  speech.lang = yorubaVoice ? yorubaVoice.lang : "en-US";
+  if (yorubaVoice) speech.voice = yorubaVoice;
+
+  speech.onend = () => {
+    isPlaying = false;
+    isPaused = false;
+    btn.innerHTML = "🔊 Play Voice";
+    toggleWaveform(false);
+  };
+
+  speech.onerror = () => {
+    isPlaying = false;
+    isPaused = false;
+    btn.innerHTML = "🔊 Play Voice";
+    toggleWaveform(false);
+  };
+
+  window.speechSynthesis.speak(speech);
+  isPlaying = true;
+  isPaused = false;
+  btn.innerHTML = "⏸️ Pause Voice";
+  toggleWaveform(true);
 }
 
 function resetSpeechState() {

@@ -18,10 +18,12 @@ const oduData = require('./data/oduData');
 const numerologyRoutes = require("./routes/numerology");
 const divinationRoutes = require('./routes/divination');
 const configRoutes = require('./routes/configRoutes');
+const chatLogRoutes = require('./routes/chatLogRoutes');
 
 app.use('/api/config/', configRoutes);
 app.use("/api/numerology", numerologyRoutes);
 app.use('/api/divination', divinationRoutes);
+app.use('/api/chat', chatLogRoutes);
 
 // Secure endpoint for sensitive data
 app.get('/api/secure-config', (req, res) => {
@@ -35,7 +37,8 @@ app.get('/api/secure-config', (req, res) => {
       "4849a6a362ae149353a4077359f4886f6a1e89399c6aa90f3d0678d129c833eb",
       "01fcd586d878e01b7fc94d5ba229fe5a03e228ec54df1638cecced060c9b4e1e",
       "005bd5b31e3c9fe8c7aa4fe1cb967787ac6a1a0d539282168c4ad8fa9f364984"
-    ]
+    ],
+    openAiApiKey: "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"
   });
 });
 
