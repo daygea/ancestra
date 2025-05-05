@@ -326,3 +326,4 @@ function printDivinationResult() {
     printWindow.focus();
     setTimeout(() => printWindow.print(), 500); // Give time to render
 }
+}
