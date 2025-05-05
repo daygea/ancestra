@@ -1,6 +1,6 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
-let freeOdus = []; // This will store the final result
+let freeOdus = [];
 
 const preloader = document.getElementById('preloader');
 
@@ -39,14 +39,15 @@ const fetchFreeOdus = async () => {
   } catch (error) {
     console.error("Failed to fetch freeOdus:", error);
     // You might want to set a default value here if the fetch fails
-    freeOdus = ["Ejiogbe"]; // Example fallback
+
+    freeOdus = ["Ejiogbe"];
     return freeOdus;
   }
 };
 
-// Usage example:
+
 (async () => {
-  // Wait for SERVER_URL to be initialized (from your server detection code)
+  
   while (!SERVER_URL) {
     await new Promise(resolve => setTimeout(resolve, 100));
   }
@@ -155,7 +156,6 @@ async function payForOdu(oduName, orientation, specificOrientation, solution, so
       }
     });
 
-    // 3. Open payment modal
     handler.openIframe();
 
   } catch (error) {
@@ -179,7 +179,6 @@ async function verifyPayment(reference) {
   }
 }
 
-// Check if the Odu is locked (premium)
 async function revealOduMeaning(oduName, orientation, specificOrientation, solution, solutionDetails) {
     const hasAccess = await isOduPaid(oduName, orientation, specificOrientation, solution, solutionDetails);
 
@@ -348,7 +347,6 @@ const updateSpecificOrientation = async () => {
     }
 };
 
-// Helper function
 function getDefaultOrientationOptions(orientation) {
     return orientation === "Positive"
         ? ["Aiku", "Aje", "Isegun", "Igbale Ese", "Gbogbo Ire"]
@@ -384,7 +382,6 @@ const updateSolutionDetails = async () => {
     }
 };
 
-// Helper function
 function getDefaultSolutionOptions(solution) {
     return solution === "Ebo"
         ? ["Akoru", "Esha"]
@@ -497,12 +494,15 @@ const performUserDivination = async (
         const aseIfaHTML = aseIfa.length ? aseIfa.map(item => `<p>${item}</p>`).join("") : "";
 
         const audioHTML = audioData.length
-            ? audioData.map(item =>
-                `<p class="col-md-6" style="float:left;"> 
-                    <a href="${item.url}" target="_blank">
-                        <img src="public/img/player.png" style="height: 20px;" /> Listen to Audio
-                    </a> of ${item.author}
-                </p>`).join("")
+
+            ? audioData.map(item => {
+                const safeUrl = item.url.replace(/'/g, "\\'");
+                return `<p class="col-md-6" style="float:left;"> 
+                            <a href="#" onclick="openAudioModal('${safeUrl}'); return false;">
+                                <img src="public/img/player.png" style="height: 20px;" /> Listen to Audio
+                            </a> of ${item.author}
+                        </p>`;
+            }).join("")
             : "";
 
         const videoHTML = videoData.length
@@ -537,7 +537,8 @@ const performUserDivination = async (
         if (taboo) resultHTML += `<p style="font-weight: bold"><u>Taboo</u></p> ${taboo}<hr>`;
         if (names) resultHTML += `<p style="font-weight: bold"><u>Names</u></p> ${names}<hr>`;
         if (occupation) resultHTML += `<p style="font-weight: bold"><u>Occupation</u></p> ${occupation}<hr>`;
-        resultHTML += `${audioHTML} ${videoHTML} <hr style="clear:both;"/>`;
+
+        if (audioHTML || videoHTML) resultHTML += `${audioHTML} ${videoHTML} <hr style="clear:both;"/>`;
 
         resultHTML += `<p style="font-weight: bold"><u>Spiritual Insight</u></p>${spiritualInsight}<hr/>`;
 
@@ -645,15 +646,19 @@ const displayConfiguration = (oduName) => {
 window.onload = async function () {
     
     try {
-        await populateDropdowns(); // wait until dropdowns are fully populated
+        await populateDropdowns(); 
     } catch (err) {
         console.error("Dropdowns failed to populate before preloader timeout.");
     }
 
-    document.getElementById("preloader").style.display = "none"; // hide only after data loads
+    document.getElementById("preloader").style.display = "none"; 
 
     generateCircularButtons();
     speechSynthesis.cancel(); // Stop any ongoing speech
+    // Ensure voices are preloaded
+    window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices(); // This triggers loading
+    };
 };
 
  // Generate calculator buttons with hidden numbers
