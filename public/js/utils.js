@@ -4,17 +4,20 @@ let isPaused = false;
 
 function togglePlayPause() {
     const playPauseBtn = document.getElementById("playPauseBtn");
+    const waveform = document.getElementById("waveform-container");
 
     if (isPlaying && !isPaused) {
         // Pause the speech
         window.speechSynthesis.pause();
         isPaused = true;
         playPauseBtn.innerHTML = "▶️ Resume";
+        waveform.style.display = "none";
     } else if (isPaused) {
         // Resume the speech
         window.speechSynthesis.resume();
         isPaused = false;
         playPauseBtn.innerHTML = "⏸ Pause";
+        waveform.style.display = "flex";
     } else {
         // Restart the speech from the beginning
         playResult();
@@ -44,6 +47,7 @@ function playResult() {
     window.speechSynthesis.speak(speech);
     isPlaying = true;
     isPaused = false;
+}
 
 function toggleWaveform(show) {
   const waveform = document.getElementById("waveform-container");
@@ -52,6 +56,7 @@ function toggleWaveform(show) {
     waveform.classList.remove("paused");
   } else {
     waveform.classList.add("paused");
+    waveform.style.display = "none";
   }
 }
 
@@ -325,5 +330,4 @@ function printDivinationResult() {
     printWindow.document.close();
     printWindow.focus();
     setTimeout(() => printWindow.print(), 500); // Give time to render
-}
 }
