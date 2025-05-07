@@ -691,7 +691,7 @@ function generateCircularButtons() {
         button.onclick = function () {
             if (!canClick) return;
             this.classList.add("clicked");
-            displayMeaning(this.dataset.number, button);
+            displayMeaning(this.dataset.number);
             setTimeout(generateCircularButtons, 1000);
         };
 
@@ -700,9 +700,8 @@ function generateCircularButtons() {
 }
 
 // Function to display Numerology and Astrological meaning and highlight the selected button
-async function displayMeaning(number, selectedButton) {
+async function displayMeaning(number) {
     resetSpeechState();
-
     preloader.style.display = 'flex';
     preloader.style.justifyContent = 'center';
     preloader.style.alignItems = 'center';
@@ -803,21 +802,21 @@ document.getElementById("determine-btn").onclick = async () => {
         const html = `
             <h3 style="text-align:center; font-weight:bold; margin-top:20px;">Revelation for ${data.fullname}</h3><hr/>
             <p style="text-align:center; font-size:22px"><strong>Purpose on Earth - ${data.vibrations.reality.label}</strong></p><p>${data.vibrations.reality.meaning}</p><hr/>
-            <p style="text-align:center; font-size:22px"><strong>Destiny - ${data.destiny.label}</strong></p><p>${data.destiny.meaning}</p><hr/>
             <p style="text-align:center; font-size:22px"><strong>Life Path  - ${data.vibrations.lifepath.label}</strong></p><p>${data.vibrations.lifepath.meaning}</p><hr/>
             <p style="font-size:22px"><strong>Birthday Challenges/ Karma (${data.birthdayChallenge.number})</strong></p><p>${data.birthdayChallenge.meaning}</p><hr/>
 
             <h3>Summary</h3>
-            <p><strong>Previous Life Path Energy - ${data.vibrations.previouslifepath.number}:</strong> ${data.vibrations.previouslifepath.label}</p>
-            <p><strong>Current Life Path Energy - ${data.vibrations.lifepath.number}:</strong> ${data.vibrations.lifepath.label}</p>
-            <p><strong>Purpose on Earth - ${data.vibrations.reality.number}:</strong> ${data.vibrations.reality.label}</p>
-            <p><strong>Destiny - ${data.destiny.number}:</strong> ${data.destiny.label}</p>
-            <p><strong>Soul Urge  - ${data.soulUrge.number}:</strong> ${data.soulUrge.label}</p>
-            <p><strong>How the world sees you   - ${data.quiescent.number}:</strong> ${data.quiescent.label}</p>
-            <p><strong>This Year’s Energy - ${data.vibrations.year.number}:</strong> ${data.vibrations.year.label}</p>
-            <p><strong>This Month's Energy - ${data.vibrations.month.number}:</strong> ${data.vibrations.month.label}</p>
-            <p><strong>This Week's Energy - ${data.vibrations.week.number}:</strong> ${data.vibrations.week.label}</p>
-            <p><strong>Today's Energy - ${data.vibrations.day.number}:</strong> ${data.vibrations.day.label}</p>            
+            <p><strong><a style="cursor:pointer; text-decoration: underline;" onclick="displayMeaning(${data.vibrations.previouslifepath.number})">Previous Life Path Energy - ${data.vibrations.previouslifepath.number}:</a></strong> ${data.vibrations.previouslifepath.label}</p>
+            <p><strong><a style="cursor:pointer; text-decoration: underline;" onclick="displayMeaning(${data.vibrations.lifepath.number})">Current Life Path Energy - ${data.vibrations.lifepath.number}:</a></strong> ${data.vibrations.lifepath.label}</p>
+            <p><strong><a style="cursor:pointer; text-decoration: underline;" onclick="displayMeaning(${data.vibrations.reality.number})">Purpose on Earth - ${data.vibrations.reality.number}:</a></strong> ${data.vibrations.reality.label}</p>
+            <p><strong><a style="cursor:pointer; text-decoration: underline;" onclick="displayMeaning(${data.destiny.number})">Destiny - ${data.destiny.number}:</a></strong> ${data.destiny.label}</p>
+            <p><strong><a style="cursor:pointer; text-decoration: underline;" onclick="displayMeaning(${data.soulUrge.number})">Soul Urge - ${data.soulUrge.number}:</a></strong> ${data.soulUrge.label}</p>
+            <p><strong><a style="cursor:pointer; text-decoration: underline;" onclick="displayMeaning(${data.quiescent.number})">How the world sees you - ${data.quiescent.number}:</a></strong> ${data.quiescent.label}</p>
+            <p><strong><a style="cursor:pointer; text-decoration: underline;" onclick="displayMeaning(${data.vibrations.year.number})">This Year’s Energy - ${data.vibrations.year.number}:</a></strong> ${data.vibrations.year.label}</p>
+            <p><strong><a style="cursor:pointer; text-decoration: underline;" onclick="displayMeaning(${data.vibrations.month.number})">This Month's Energy - ${data.vibrations.month.number}:</a></strong> ${data.vibrations.month.label}</p>
+            <p><strong><a style="cursor:pointer; text-decoration: underline;" onclick="displayMeaning(${data.vibrations.week.number})">This Week's Energy - ${data.vibrations.week.number}:</a></strong> ${data.vibrations.week.label}</p>
+            <p><strong><a style="cursor:pointer; text-decoration: underline;" onclick="displayMeaning(${data.vibrations.day.number})">Today's Energy - ${data.vibrations.day.number}:</a></strong> ${data.vibrations.day.label}</p>
+          
             <hr/>
         `;
 
