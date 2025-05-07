@@ -802,15 +802,23 @@ document.getElementById("determine-btn").onclick = async () => {
 
         const html = `
             <h3 style="text-align:center; font-weight:bold; margin-top:20px;">Revelation for ${data.fullname}</h3><hr/>
-            <p style="text-align:center; font-size:22px"><strong>Destiny/Life path - ${data.destiny.label}</strong></p><p>${data.destiny.meaning}</p><hr/>
-            <p style="text-align:center; font-size:22px"><strong>Soul Urge  - ${data.soulUrge.label}</strong></p><p>${data.soulUrge.meaning}</p><hr/>
-            <p style="text-align:center; font-size:22px"><strong>How the world sees you - ${data.quiescent.label}</strong></p><p>${data.quiescent.meaning}</p><hr/>
+            <p style="text-align:center; font-size:22px"><strong>Purpose on Earth - ${data.vibrations.reality.label}</strong></p><p>${data.vibrations.reality.meaning}</p><hr/>
+            <p style="text-align:center; font-size:22px"><strong>Destiny - ${data.destiny.label}</strong></p><p>${data.destiny.meaning}</p><hr/>
+            <p style="text-align:center; font-size:22px"><strong>Life Path  - ${data.vibrations.lifepath.label}</strong></p><p>${data.vibrations.lifepath.meaning}</p><hr/>
+            <p style="font-size:22px"><strong>Birthday Challenges (${data.birthdayChallenge.number})</strong></p><p>${data.birthdayChallenge.meaning}</p><hr/>
 
-            <p><strong>Today's Energy - ${data.vibrations.day.number}:</strong> ${data.vibrations.day.meaning}</p>
-            <p><strong>This Week's Energy - ${data.vibrations.week.number}:</strong> ${data.vibrations.week.meaning}</p>
-            <p><strong>This Month's Energy - ${data.vibrations.month.number}:</strong> ${data.vibrations.month.meaning}</p>
-            <p><strong>This Year’s Energy - ${data.vibrations.year.number}:</strong> ${data.vibrations.year.meaning}</p>
-            <p><strong>Lifetime Energy - ${data.vibrations.lifetime.number}:</strong> ${data.vibrations.lifetime.meaning}</p><hr/>
+            <h3>Summary</h3>
+            <p><strong>Previous Life Path Energy - ${data.vibrations.previouslifepath.number}:</strong> ${data.vibrations.previouslifepath.label}</p>
+            <p><strong>Current Life Path Energy - ${data.vibrations.lifepath.number}:</strong> ${data.vibrations.lifepath.label}</p>
+            <p><strong>Purpose on Earth - ${data.vibrations.reality.number}:</strong> ${data.vibrations.reality.label}</p>
+            <p><strong>Destiny - ${data.destiny.number}:</strong> ${data.destiny.label}</p>
+            <p><strong>Soul Urge  - ${data.soulUrge.number}:</strong> ${data.soulUrge.label}</p>
+            <p><strong>How the world sees you   - ${data.quiescent.number}:</strong> ${data.quiescent.label}</p>
+            <p><strong>This Year’s Energy - ${data.vibrations.year.number}:</strong> ${data.vibrations.year.label}</p>
+            <p><strong>This Month's Energy - ${data.vibrations.month.number}:</strong> ${data.vibrations.month.label}</p>
+            <p><strong>This Week's Energy - ${data.vibrations.week.number}:</strong> ${data.vibrations.week.label}</p>
+            <p><strong>Today's Energy - ${data.vibrations.day.number}:</strong> ${data.vibrations.day.label}</p>            
+            <hr/>
         `;
 
         const astro = data.astrology;

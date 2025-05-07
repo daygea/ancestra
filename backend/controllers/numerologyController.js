@@ -1,11 +1,17 @@
 // controllers/numerologyController.js
 
 const {
+    reduceNumber,
     getNumerologyNumber,
     getNameNumerology,
     getZodiacSign,
     summaryNumerologyMeanings,
     numerologyMeanings,
+    getBirthdayChallenge,
+    birthdayChallengeMeanings,
+    birthdayGiftMeanings,
+    purposeOnEarthMeanings,
+    astrologyData,
     planetaryTransits
 } = require("../utils/numerologyUtils");
 
@@ -29,6 +35,9 @@ exports.calculateNumerology = (req, res) => {
     const currentDay = currentDate.getDate();
     const currentWeek = Math.ceil((currentDay + new Date(currentYear, currentMonth - 1, 1).getDay()) / 7);
 
+    const birthdayChallengeNumber = getBirthdayChallenge(birthDay);
+    summaryNumerologyMeanings[0] = "Potential energy or spiritual void. A call to awakening.";
+
     const result = {
         fullname,
         birthdate,
@@ -47,12 +56,47 @@ exports.calculateNumerology = (req, res) => {
             label: summaryNumerologyMeanings[nameDetails.quiescent],
             meaning: numerologyMeanings[nameDetails.quiescent]
         },
+        birthdayChallenge: {
+            number: birthdayChallengeNumber,
+            label: summaryNumerologyMeanings[birthdayChallengeNumber],
+            meaning: birthdayChallengeMeanings[birthdayChallengeNumber]
+        },
         vibrations: {
-            day: {number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentDay}`), meaning: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentDay}`)]},
-            week: {number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentWeek}`), meaning: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentWeek}`)]},
-            month: {number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}`), meaning: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}`)]},
-            year: {number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}`), meaning: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}`)]},
-            lifetime: {number: getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`), meaning: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`)]}
+            day: {
+                number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentDay}`), 
+                label: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentDay}`)],
+                meaning: numerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentDay}`)]
+            },
+            week: {
+                number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentWeek}`), 
+                label: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentWeek}`)],
+                meaning: numerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}${currentWeek}`)]
+            },
+            month: {
+                number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}`), 
+                label: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}`)],
+                meaning: numerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}${currentMonth}`)]
+            },
+            year: {
+                number: getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}`), 
+                label: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}`)],
+                meaning: numerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${currentYear}`)]
+            },
+            lifepath: {
+                number: getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`), 
+                label: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`)],
+                meaning: numerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`)]
+            },
+            previouslifepath: {
+                number: getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`)-1, 
+                label: summaryNumerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`)-1],
+                meaning: numerologyMeanings[getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`)-1]
+            },
+            reality: {
+                number: reduceNumber(getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`)+nameDetails.destiny), 
+                label: summaryNumerologyMeanings[reduceNumber(getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`)+nameDetails.destiny)],
+                meaning: numerologyMeanings[reduceNumber(getNumerologyNumber(`${birthDay}${birthMonth}${birthYear}`)+nameDetails.destiny)]
+            }
         },
         astrology: getZodiacSign(birthdate)
     };
