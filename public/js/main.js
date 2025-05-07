@@ -805,7 +805,7 @@ document.getElementById("determine-btn").onclick = async () => {
             <p style="text-align:center; font-size:22px"><strong>Purpose on Earth - ${data.vibrations.reality.label}</strong></p><p>${data.vibrations.reality.meaning}</p><hr/>
             <p style="text-align:center; font-size:22px"><strong>Destiny - ${data.destiny.label}</strong></p><p>${data.destiny.meaning}</p><hr/>
             <p style="text-align:center; font-size:22px"><strong>Life Path  - ${data.vibrations.lifepath.label}</strong></p><p>${data.vibrations.lifepath.meaning}</p><hr/>
-            <p style="font-size:22px"><strong>Birthday Challenges (${data.birthdayChallenge.number})</strong></p><p>${data.birthdayChallenge.meaning}</p><hr/>
+            <p style="font-size:22px"><strong>Birthday Challenges/ Karma (${data.birthdayChallenge.number})</strong></p><p>${data.birthdayChallenge.meaning}</p><hr/>
 
             <h3>Summary</h3>
             <p><strong>Previous Life Path Energy - ${data.vibrations.previouslifepath.number}:</strong> ${data.vibrations.previouslifepath.label}</p>
