@@ -95,7 +95,7 @@ setTimeout(() => {
 const SERVER_CANDIDATES = [
   "http://localhost:10000",
   "https://ancestra-nhhh.onrender.com", 
-  "https://ancestra.fly.dev"
+  // "https://ancestra.fly.dev"
 ];
 
 // Current active server
@@ -123,7 +123,7 @@ const updateActiveServer = async () => {
     if (await checkServer(url)) {
       if (SERVER_URL !== url) {
 
-        // console.log(`Switched to ${url}`);
+        console.log(`Switched to ${url}`);
         SERVER_URL = url;
       }
       break;
@@ -139,5 +139,5 @@ setInterval(updateActiveServer, 30000);
 // Initialize on startup
 (async () => {
   await updateActiveServer();
-  // console.log("Initial server:", SERVER_URL);
+  console.log("Initial server:", SERVER_URL);
 })();

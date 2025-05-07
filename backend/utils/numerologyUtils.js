@@ -325,9 +325,9 @@ const birthdayChallengeMeanings = {
   
   7: "Wisdom is essential—things may rarely go as planned. Beware of prison, poison, or kidnapping. Avoid drugs and alcohol to protect your kidneys and future success. Stay away from illegal activities. The spiritual realm may be misaligned with you. Be cautious with trust, as betrayal is likely. Refrain from using negative or harmful words.",
   
-  8: "Your intuition may often mislead you. Struggles with arithmetic or governmental matters may arise. Seek power and authority, but remain grounded. Take care of your cholesterol and bones, as you're prone to stroke and rheumatism. Bathe regularly with warm water to support your health.",
+  8: "Your intuition may often mislead you. Struggles with arithmetic/calculations. Governmental matters may arise, seek power and authority, but remain grounded. Take care of your cholesterol and bones, as you're prone to stroke and rheumatism. Bathe regularly with warm water to support your health.",
   
-  9: "Be cautious when helping others or trying to unite people. Avoid overspeeding and manage your anger carefully to avoid setbacks. Uncontrolled anger may lead to severe consequences, even loss of life. Refrain from negative speech and stay away from people who might pull you down. Cultivate patience and calmness to preserve your progress."
+  9: "Be cautious when helping others. Avoid overspeeding when driving and manage your anger carefully to avoid setbacks. Uncontrolled anger may lead to severe consequences, even loss of life. Refrain from negative speech and stay away from people who might pull you down. Cultivate patience and calmness to preserve your progress."
 };
 
 
