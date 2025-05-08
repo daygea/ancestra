@@ -8,6 +8,7 @@ const {
     summaryNumerologyMeanings,
     numerologyMeanings,
     getBirthdayChallenge,
+    getBirthdayGift,
     birthdayChallengeMeanings,
     birthdayGiftMeanings,
     astrologyData,
@@ -35,7 +36,7 @@ exports.calculateNumerology = (req, res) => {
     const currentWeek = Math.ceil((currentDay + new Date(currentYear, currentMonth - 1, 1).getDay()) / 7);
 
     const birthdayChallengeNumber = getBirthdayChallenge(birthDay);
-    const birthdayGiftNumber = birthdayGift(birthDay);
+    const birthdayGiftNumber = getBirthdayGift(birthDay);
     summaryNumerologyMeanings[0] = "Potential energy or spiritual void. A call to awakening.";
 
     const result = {

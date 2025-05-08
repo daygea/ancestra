@@ -54,7 +54,7 @@ function getBirthdayChallenge(day) {
     return Math.abs(digits[0] - digits[1]); // Always positive
 }
 
-function birthdayGift(day) {
+function getBirthdayGift(day) {
     const challenge = getBirthdayChallenge(day);
     return 9 - challenge;
 }
@@ -419,6 +419,7 @@ module.exports = {
     summaryNumerologyMeanings,
     numerologyMeanings,
     getBirthdayChallenge,
+    getBirthdayGift,
     birthdayChallengeMeanings,
     birthdayGiftMeanings,
     astrologyData,
