@@ -87,7 +87,7 @@ async function getAIResponse() {
     };
 
     const data = {
-        model: "gpt-4",
+        model: "gpt-4.1",
         messages: chatHistory,
         max_tokens: 2048,
         temperature: 0.7
