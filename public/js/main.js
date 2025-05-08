@@ -225,22 +225,6 @@ const getOduImages = (symbols) => {
     ).join("");
 };
 
-//Generate all 256 Odù combinations
-// const generateOduCombinations = () => {
-//     const baseOduNames = Object.keys(baseOdus);
-//     const allOdus = [...baseOduNames];
-//     baseOduNames.forEach(firstOdu => {
-//         baseOduNames.forEach(secondOdu => {
-//             if (firstOdu !== secondOdu) {
-//                 let firstName = firstOdu === "Ejiogbe" ? "Ogbe" : firstOdu.split(" ")[0];
-//                 let secondName = secondOdu === "Ejiogbe" ? "Ogbe" : secondOdu.split(" ")[0];
-//                 allOdus.push(`${firstName} ${secondName}`);
-//             }
-//         });
-//     });
-//     return allOdus;
-// };
-
 // Function to reduce a number to a single-digit numerology number
 const getNumerologyNumber = (number) => {
     while (number > 9 && number !== 11 && number !== 22) {
@@ -634,12 +618,19 @@ const performUserDivination = async (
     smoothScrollTo(resultElement.offsetTop, 2000);
 };
 
-
 // Function to display Odù configuration with overlapping images
 const displayConfiguration = (oduName) => {
     const configurationElement = document.getElementById("configurationResult");
 
+    const odu = allOdus.find(item => item.name === oduName);
+    const oduId = odu ? odu.id : "N/A";
+    const numerology = odu ? odu.numerology : "N/A";
+
     let configHTML = `
+           <p><strong>No. ${oduId} Odù:</strong> ${oduName}</p>
+    `;
+
+     configHTML += `
         <div class="odu-container" id="odu-container">
             <img src="public/img/chain.png" alt="Odu Header" class="odu-header">
     `;
@@ -680,6 +671,10 @@ const displayConfiguration = (oduName) => {
     configHTML += `
             <img src="public/img/opeleFooter.png" alt="Odu Footer" class="odu-footer">
         </div>
+    `;
+
+    configHTML += `
+        <br/><p><a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${numerology})">Numerology: ${numerology}</a></p>
     `;
 
     configurationElement.innerHTML = configHTML;
@@ -851,8 +846,8 @@ document.getElementById("determine-btn").onclick = async () => {
 
         const html = `
             <h3 style="text-align:center; font-weight:bold; margin-top:20px;">Revelation for ${data.fullname}</h3><hr/>
+           <p style="text-align:center; font-size:22px"><strong>Life Path  - ${data.vibrations.lifepath.label}</strong></p><p>${data.vibrations.lifepath.meaning}</p><hr/>
             <p style="text-align:center; font-size:22px"><strong>Purpose on Earth - ${data.vibrations.reality.label}</strong></p><p>${data.vibrations.reality.meaning}</p><hr/>
-            <p style="text-align:center; font-size:22px"><strong>Life Path  - ${data.vibrations.lifepath.label}</strong></p><p>${data.vibrations.lifepath.meaning}</p><hr/>
             <p style="font-size:22px"><strong>Birthday Challenge/Karma - ${data.birthdayChallenge.number}</strong></p><p>${data.birthdayChallenge.meaning}</p><hr/>
 
             <h3>Summary</h3>
