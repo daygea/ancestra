@@ -10,7 +10,6 @@ const {
     getBirthdayChallenge,
     birthdayChallengeMeanings,
     birthdayGiftMeanings,
-    purposeOnEarthMeanings,
     astrologyData,
     planetaryTransits
 } = require("../utils/numerologyUtils");
@@ -36,6 +35,7 @@ exports.calculateNumerology = (req, res) => {
     const currentWeek = Math.ceil((currentDay + new Date(currentYear, currentMonth - 1, 1).getDay()) / 7);
 
     const birthdayChallengeNumber = getBirthdayChallenge(birthDay);
+    const birthdayGiftNumber = birthdayGift(birthDay);
     summaryNumerologyMeanings[0] = "Potential energy or spiritual void. A call to awakening.";
 
     const result = {
@@ -60,6 +60,11 @@ exports.calculateNumerology = (req, res) => {
             number: birthdayChallengeNumber,
             label: summaryNumerologyMeanings[birthdayChallengeNumber],
             meaning: birthdayChallengeMeanings[birthdayChallengeNumber]
+        },
+        birthdayGift: {
+            number: birthdayGiftNumber,
+            label: summaryNumerologyMeanings[birthdayGiftNumber],
+            meaning: birthdayGiftMeanings[birthdayGiftNumber]
         },
         vibrations: {
             day: {

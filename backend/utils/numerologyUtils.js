@@ -54,6 +54,12 @@ function getBirthdayChallenge(day) {
     return Math.abs(digits[0] - digits[1]); // Always positive
 }
 
+function birthdayGift(day) {
+    const challenge = getBirthdayChallenge(day);
+    return 9 - challenge;
+}
+
+
 // -------------------------
 // 🔭 ASTROLOGY CORE
 // -------------------------
@@ -323,40 +329,24 @@ const birthdayChallengeMeanings = {
   
   6: "Avoid partying, even if tempted. You may struggle with honesty—always speak the truth and shun craftiness. Steer clear of multiple partners and beauty-related businesses (e.g., salons, barbershops), as they may not bring profit. Manage your relationships with women carefully to avoid spiritual consequences from the Eleye. Watch out for overwhelming responsibilities and be prudent with spending. Health areas of concern include the liver, tongue, skin, and esophagus. There's a high risk of divorce.",
   
-  7: "Wisdom is essential—things may rarely go as planned. Beware of prison, poison, or kidnapping. Avoid drugs and alcohol to protect your kidneys and future success. Stay away from illegal activities. The spiritual realm may be misaligned with you. Be cautious with trust, as betrayal is likely. Refrain from using negative or harmful words.",
+  7: "Wisdom is essential—things may rarely go as planned. Beware of prison, poison, or kidnapping. Avoid drugs and alcohol to protect your kidneys and future success. Stay away from illegal activities. The spiritual realm may be misaligned with you, so seek spiritual knowledge. Be cautious with trust, as betrayal is likely. Refrain from using negative or harmful words.",
   
-  8: "Your intuition may often mislead you. Struggles with arithmetic/calculations. Governmental matters may arise, seek power and authority, but remain grounded. Take care of your cholesterol and bones, as you're prone to stroke and rheumatism. Bathe regularly with warm water to support your health.",
+  8: "Your intuition may often mislead you. Struggles with arithmetic/calculations. Governmental matters may arise, seek power and authority, but remain grounded. Take care of your cholesterol levels and bones, as you're prone to stroke and rheumatism. Bathe regularly with warm water to support your health.",
   
   9: "Be cautious when helping others. Avoid overspeeding when driving and manage your anger carefully to avoid setbacks. Uncontrolled anger may lead to severe consequences, even loss of life. Refrain from negative speech and stay away from people who might pull you down. Cultivate patience and calmness to preserve your progress."
 };
 
 
 const birthdayGiftMeanings = {
-    1: "",
-    2: "",
-    3: "",
-    4: "",
-    5: "",
-    6: "",
-    7: "",
-    8: "",
-    9: "",
-    11: "",
-    22: ""
-};
-
-const purposeOnEarthMeanings = {
-    1: "",
-    2: "",
-    3: "",
-    4: "",
-    5: "",
-    6: "",
-    7: "",
-    8: "",
-    9: "",
-    11: "",
-    22: ""
+    1: "Take care of your head, as your spirit head is supporting you. You are a leader — go and start a business as an entrepreneur. Don't be self-centred. Compatible with birthday gifts 2, 7, and 8.",
+    2: "Care for people a lot, but not at your own expense. Be kind. You can start a worship centre. Compatible with birthday gifts 1, 3, and 4.",
+    3: "You will do well as a politician and a businessperson. Compatible with birthday gifts 1, 5, and 9.",
+    4: "You will get lots of opportunities. Be flexible, harmonious, and down-to-earth with people. Always have a good imagination. Compatible with birthday gifts 1, 5, and 7.",
+    5: "You should be diplomatic, adaptable, and know how to deal with people. Compatible with birthday gifts 1, 3, and 7.",
+    6: "Balanced, harmonious, compassionate, and stable. Compatible with all birthday gift numbers.",
+    7: "You possess wisdom, knowledge, and are highly spiritual and intelligent, with a deep understanding of the world. A natural problem-solver and willing to help others. You take time to make decisions. Compatible with birthday gifts 2, 4, and 8.",
+    8: "Powerful and successful, with lots of opportunities. Have confidence and be determined. Avoid arrogance and materialism. Compatible with all birthday gift numbers, but sometimes not with 4, 7, and 8.",
+    9: "The universe worships you. Be kind and care for people without showing off. Highly intuitive with a strong connection to the spirit. Highly motivated and supportive during difficult times. Compatible with birthday gift 9."
 };
 
 
@@ -431,7 +421,6 @@ module.exports = {
     getBirthdayChallenge,
     birthdayChallengeMeanings,
     birthdayGiftMeanings,
-    purposeOnEarthMeanings,
     astrologyData,
     planetaryTransits
 };

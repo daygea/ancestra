@@ -321,7 +321,7 @@ function printDivinationResult() {
             
            <center> ${printHeader} </center> <br/>
             ${printContent}
-
+           <p style="color:red; padding-top: 1vh; text-align: center">Disclaimer: Ancestra is for informational and educational purposes only. It is not intended to replace professional advice or consultation.<p>
             <center> Ire o. </center>
         </body>
         </html>
