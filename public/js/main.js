@@ -848,6 +848,7 @@ document.getElementById("determine-btn").onclick = async () => {
             <h3 style="text-align:center; font-weight:bold; margin-top:20px;">Revelation for ${data.fullname}</h3><hr/>
            <p style="text-align:center; font-size:22px"><strong>Life Path  - ${data.vibrations.lifepath.label}</strong></p><p>${data.vibrations.lifepath.meaning}</p><hr/>
             <p style="text-align:center; font-size:22px"><strong>Purpose on Earth - ${data.vibrations.reality.label}</strong></p><p>${data.vibrations.reality.meaning}</p><hr/>
+            <p style="font-size:22px"><strong>Birthday Gift - ${data.birthdayGift.number}</strong></p><p>${data.birthdayGift.meaning}</p><hr/>
             <p style="font-size:22px"><strong>Birthday Challenge/Karma - ${data.birthdayChallenge.number}</strong></p><p>${data.birthdayChallenge.meaning}</p><hr/>
 
             <h3>Summary</h3>
