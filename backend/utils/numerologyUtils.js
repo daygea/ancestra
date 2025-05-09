@@ -274,7 +274,7 @@ function getZodiacSign(dob) {
 }
 
 // -------------------------
-// 🧠 DESCRIPTIONS
+// 🧠 NUMEROLOGY SUMMARY
 // -------------------------
     const summaryNumerologyMeanings = {
     1: "Natural leader, independent, strong willed, and driven.",
