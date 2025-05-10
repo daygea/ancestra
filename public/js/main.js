@@ -526,6 +526,8 @@ const performUserDivination = async (
         const videoData = oduData.videoData || [];
 
         const aseIfaHTML = aseIfa.length ? aseIfa.map(item => `<p>${item}</p>`).join("") : "";
+        const oduSummary = getOduSummary(mainCast);
+        const spiritualInsight = decodeIfaWithSpiritualContext(mainCast, orientation, specificOrientation, solution, solutionDetails);
 
         const audioHTML = audioData.length
 
@@ -550,9 +552,6 @@ const performUserDivination = async (
 
             preloader.style.display = 'none';
 
-        const spiritualInsight = decodeIfaWithSpiritualContext(mainCast, orientation, specificOrientation, solution, solutionDetails);
-
-
         if (isAdminAuthenticated || freeOdus.includes(mainCast) || isOduPaid(mainCast, orientation, specificOrientation, solution, solutionDetails)) {
         let resultHTML = `
             <h3 style="text-align: center; margin-top:20px; font-weight: bold;">
@@ -561,11 +560,8 @@ const performUserDivination = async (
             <p>${message} ${solutionInfo}</p>
         `;
 
-        const figureSummary = getOduSummary(mainCast); // Your existing summary function
-        resultHTML += `<hr/><p style="font-weight: bold"><u>Key Points</u></p>${figureSummary}<hr/>`;
-
-        resultHTML += `<p style="font-weight: bold"><u>Ase Ifa</u></p>${aseIfaHTML}<hr/>`;
-
+        if (oduSummary) resultHTML += `<hr/><p style="font-weight: bold"><u>Key Points</u></p>${oduSummary}<hr/>`;
+        if (aseIfaHTML) resultHTML += `<p style="font-weight: bold"><u>Ase Ifa</u></p>${aseIfaHTML}<hr/>`;
         if (orisha) resultHTML += `<p style="font-weight: bold"><u>Orisha</u></p>${orisha}<hr>`;
         if (alias) resultHTML += `<p style="font-weight: bold"><u>Alias</u></p> ${alias}<hr>`;
         if (taboo) resultHTML += `<p style="font-weight: bold"><u>Taboo</u></p> ${taboo}<hr>`;
@@ -777,6 +773,8 @@ async function displayMeaning(number) {
                 Energy ${numerologyNumber} - ${data.label}
             </h3><hr/>
             <p>${data.meaning}</p>
+
+            <p style="font-weight: bold;"><u>Credit</u></p> Najeem Kewunla Kewuyemi (Prof. Kewunla), <a target='_blank' href='https://aokfoundation.org/'>Aminat Olanbiwoninu Kadri (AOK) Foundation</a>
         `;
 
         // Configuration (image for the background animation)
@@ -846,7 +844,7 @@ document.getElementById("determine-btn").onclick = async () => {
 
         const html = `
             <h3 style="text-align:center; font-weight:bold; margin-top:20px;">Revelation for ${data.fullname}</h3><hr/>
-           <p style="text-align:center; font-size:22px"><strong>Life Path  - ${data.vibrations.lifepath.label}</strong></p><p>${data.vibrations.lifepath.meaning}</p><hr/>
+            <p style="text-align:center; font-size:22px"><strong>Life Path  - ${data.vibrations.lifepath.label}</strong></p><p>${data.vibrations.lifepath.meaning}</p><hr/>
             <p style="text-align:center; font-size:22px"><strong>Purpose on Earth - ${data.vibrations.reality.label}</strong></p><p>${data.vibrations.reality.meaning}</p><hr/>
             <p><strong>Birthday Gift - ${data.birthdayGift.number}</strong> ${data.birthdayGift.meaning}</p><hr/>
             <p><strong>Birthday Challenge/Karma - ${data.birthdayChallenge.number} </strong>${data.birthdayChallenge.meaning}</p><hr/>
@@ -886,6 +884,7 @@ document.getElementById("determine-btn").onclick = async () => {
                     <p><strong>Upcoming:</strong> ${planet.upcomingShift}</p>
                     <p><strong>Itumo:</strong> ${planet.ifaProverb}</p>
                 ` : ""}
+                <h3>Credit</h3> Najeem Kewunla Kewuyemi (Prof. Kewunla), <a target='_blank' href='https://aokfoundation.org/'>Aminat Olanbiwoninu Kadri (AOK) Foundation</a>
             `;
         } else {
             preloader.style.display = 'none';
