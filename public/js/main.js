@@ -214,8 +214,8 @@ const baseOdus = {
 };
 // Image paths for mapping
 const imageMap = {
-    "|": "public/img/openOpele-before.png",
-    "||": "public/img/closeOpele-before.png"
+    "|": "public/img/openOpele.png",
+    "||": "public/img/closeOpele.png"
 };
 
 // Function to convert a symbol array into image elements
