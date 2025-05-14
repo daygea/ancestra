@@ -774,7 +774,7 @@ async function displayMeaning(number) {
             </h3><hr/>
             <p>${data.meaning}</p>
 
-            <p style="font-weight: bold;"><u>Credit</u></p> Najeem Kewunla Kewuyemi (Prof. Kewunla), <a target='_blank' href='https://aokfoundation.org/'>Aminat Olanbiwoninu Kadri (AOK) Foundation</a>
+            <p style="font-weight: bold;"><u>Credit</u></p>Shirley Blackwell Lawrence, Najeem Kewunla Kewuyemi (Prof. Kewunla), <a target='_blank' href='https://aokfoundation.org/'>Aminat Olanbiwoninu Kadri (AOK) Foundation</a>
         `;
 
         // Configuration (image for the background animation)
@@ -884,7 +884,7 @@ document.getElementById("determine-btn").onclick = async () => {
                     <p><strong>Upcoming:</strong> ${planet.upcomingShift}</p>
                     <p><strong>Itumo:</strong> ${planet.ifaProverb}</p>
                 ` : ""}
-                <h3>Credit</h3> Najeem Kewunla Kewuyemi (Prof. Kewunla), <a target='_blank' href='https://aokfoundation.org/'>Aminat Olanbiwoninu Kadri (AOK) Foundation</a>
+                <h3>Credit</h3>Shirley Blackwell Lawrence, Najeem Kewunla Kewuyemi (Prof. Kewunla), <a target='_blank' href='https://aokfoundation.org/'>Aminat Olanbiwoninu Kadri (AOK) Foundation</a>
             `;
         } else {
             preloader.style.display = 'none';
