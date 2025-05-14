@@ -51,7 +51,8 @@
     width: 100%;
     height: 100%;
     background: white;
-    background-image: url('../img/priest.png');
+    background-image: url('../img/bird.gif');
+/*    background-image: url('../img/priest.png');*/
      background-position: center;
       background-repeat: no-repeat;
     display: flex;
