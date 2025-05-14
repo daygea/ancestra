@@ -82,8 +82,8 @@
                           id="birthdate"
                           type="text"
                           placeholder="dd/mm/yyyy"
-                          onfocus="switchToDate(this)"
-                          onblur="switchBackToText(this)"
+                          onfocus="(this.type='date')"
+                          onblur="(this.type='text')"
                         /><br/><br/>
                         <button class="btn btn-md btn-default app-btn" id="determine-btn">Reveal Message</button>
                     </div>
