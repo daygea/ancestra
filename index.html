@@ -82,8 +82,8 @@
                           id="birthdate"
                           type="text"
                           placeholder="dd/mm/yyyy"
-                          onfocus="(this.type='date'); (this.click())"
-                          onblur="(this.type='text')"
+                          onfocus="this.type='date'; setTimeout(() => this.showPicker && this.showPicker(), 0)"
+                          onblur="if (!this.value) this.type='text'"
                         /><br/><br/>
                         <button class="btn btn-md btn-default app-btn" id="determine-btn">Reveal Message</button>
                     </div>
