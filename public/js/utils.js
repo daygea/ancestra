@@ -179,6 +179,18 @@ async function hashPassword(password) {
     return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+function switchToDate(input) {
+  input.type = 'date';
+  // Optionally force open the date picker
+  input.click();
+}
+
+function switchBackToText(input) {
+  if (!input.value) {
+    input.type = 'text';
+  }
+}
+
 function printDivinationResult() {
     if (!isAdminAuthenticated) {
         alert("Only admins can print.");
