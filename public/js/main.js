@@ -511,6 +511,9 @@ const performUserDivination = async (
         const oduData = await response.json();
         const orientationBlock = oduData?.[orientation];
         const specificOrientationBlock = orientationBlock?.[specificOrientation];
+        const coreMessage = specificOrientationBlock.coreMessage;
+        const coreAudioData = specificOrientationBlock.coreAudioData;
+        const coreVideoData = specificOrientationBlock.coreVideoData;
 
         const message = specificOrientationBlock?.Message || "No message available.";
         const solutionInfo = specificOrientationBlock?.[solution]?.[solutionDetails] || "No solution info available.";
@@ -529,13 +532,41 @@ const performUserDivination = async (
         const oduSummary = getOduSummary(mainCast);
         const spiritualInsight = decodeIfaWithSpiritualContext(mainCast, orientation, specificOrientation, solution, solutionDetails);
 
+        // Format Audio and Video for Core
+        
+        const renderCoreAudioLinks = (data, type) => {
+            if (!Array.isArray(data) || data.length === 0) return '';
+            return ` 
+                        ${data.map(item => {
+                const safeUrl = item.url.replace(/'/g, "\\'");
+                return `<p class="col-md-6" style="float:left;"> 
+                            <a href="#" onclick="openAudioModal('${safeUrl}'); return false;">
+                                🎧 Listen to Audio
+                            </a> of ${item.author}
+                        </p>`;
+            }).join("")}                  
+            `;
+        };
+
+        const renderCoreVideoLinks = (data, type) => {
+            if (!Array.isArray(data) || data.length === 0) return '';
+            return ` 
+                        ${data.map(item =>
+                `<p class="col-md-6" style="float:left;"> 
+                    <a href="#" onclick="openVideoModal('${item.url}'); return false;">
+                        🎥 Watch Video
+                    </a> of ${item.author}
+                </p>`).join("")}                  
+            `;
+        };
+
         const audioHTML = audioData.length
 
             ? audioData.map(item => {
                 const safeUrl = item.url.replace(/'/g, "\\'");
                 return `<p class="col-md-6" style="float:left;"> 
                             <a href="#" onclick="openAudioModal('${safeUrl}'); return false;">
-                                <img src="public/img/player.png" style="height: 20px;" /> Listen to Audio
+                                🎧 Listen to Audio
                             </a> of ${item.author}
                         </p>`;
             }).join("")
@@ -545,7 +576,7 @@ const performUserDivination = async (
             ? videoData.map(item =>
                 `<p class="col-md-6" style="float:left;"> 
                     <a href="#" onclick="openVideoModal('${item.url}'); return false;">
-                        <img src="public/img/player.png" style="height: 20px;" /> Watch Video
+                        🎥 Watch Video
                     </a> of ${item.author}
                 </p>`).join("")
             : "";
@@ -560,8 +591,12 @@ const performUserDivination = async (
             <p>${message} ${solutionInfo}</p>
         `;
 
-        if (oduSummary) resultHTML += `<hr/><p style="font-weight: bold"><u>Key Points</u></p>${oduSummary}<hr/>`;
-        if (aseIfaHTML) resultHTML += `<p style="font-weight: bold"><u>Ase Ifa</u></p>${aseIfaHTML}<hr/>`;
+        if (oduSummary) resultHTML += `<p style="font-weight: bold"><u>Key Points</u></p>${oduSummary}<hr/>`;
+        if (aseIfaHTML) resultHTML += `<p style="font-weight: bold"><u>Ase Ifa</u></p>`;
+        if (coreMessage) resultHTML += `<p>${coreMessage}</p>`;  
+        if (coreAudioData.length != 0) resultHTML += `${renderCoreAudioLinks(coreAudioData, 'audio')} <br style="clear:both;"/>`
+        if (coreVideoData.length != 0) resultHTML += `${renderCoreVideoLinks(coreVideoData, 'video')} <br style="clear:both;"/>`
+        if (aseIfaHTML) resultHTML += `${aseIfaHTML}<hr/>`;
         if (orisha) resultHTML += `<p style="font-weight: bold"><u>Orisha</u></p>${orisha}<hr>`;
         if (alias) resultHTML += `<p style="font-weight: bold"><u>Alias</u></p> ${alias}<hr>`;
         if (taboo) resultHTML += `<p style="font-weight: bold"><u>Taboo</u></p> ${taboo}<hr>`;
