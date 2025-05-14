@@ -478,6 +478,21 @@ const authenticateAdmin = async () => {
     }
 };
 
+const getInputValue = (id, fallback) =>
+    fallback || document.getElementById(id)?.value || '';
+
+const generateMediaLinks = (data, type, openFunc, emoji, label) => {
+    if (!Array.isArray(data) || data.length === 0) return '';
+    return data.map(item => {
+        const safeUrl = item.url.replace(/'/g, "\\'");
+        return `<p class="col-md-6" style="float:left;">
+                    <a href="#" onclick="${openFunc}('${safeUrl}'); return false;">
+                        ${emoji} ${label}
+                    </a> of ${item.author}
+                </p>`;
+    }).join("") + '<br style="clear:both;"/>';
+};
+
 const performUserDivination = async (
     mainCastParam,
     orientationParam,
@@ -487,22 +502,18 @@ const performUserDivination = async (
 ) => {
     resetSpeechState();
 
-    // Use provided parameters or fall back to DOM values
-    const mainCast = mainCastParam || document.getElementById("mainCast").value;
-    const orientation = orientationParam || document.getElementById("orientation").value;
-    const specificOrientation = specificOrientationParam || document.getElementById("specificOrientation").value;
-    const solution = solutionParam || document.getElementById("solution").value;
-    const solutionDetails = solutionDetailsParam || document.getElementById("solutionDetails").value;
+    const mainCast = getInputValue("mainCast", mainCastParam);
+    const orientation = getInputValue("orientation", orientationParam);
+    const specificOrientation = getInputValue("specificOrientation", specificOrientationParam);
+    const solution = getInputValue("solution", solutionParam);
+    const solutionDetails = getInputValue("solutionDetails", solutionDetailsParam);
 
     const orientationText = orientation === "Positive" ? "Ire" : "Ayewo";
-
     const resultElement = document.getElementById("divinationResult");
 
     preloader.style.display = 'flex';
     preloader.style.justifyContent = 'center';
     preloader.style.alignItems = 'center';
-
-    // resultElement.innerHTML = "<p style='text-align:center'><em>Loading divination details...</em></p>";
 
     try {
         const response = await fetch(`${SERVER_URL}/api/odu/${encodeURIComponent(mainCast)}`);
@@ -511,136 +522,89 @@ const performUserDivination = async (
         const oduData = await response.json();
         const orientationBlock = oduData?.[orientation];
         const specificOrientationBlock = orientationBlock?.[specificOrientation];
-        const coreMessage = specificOrientationBlock.coreMessage;
-        const coreAudioData = specificOrientationBlock.coreAudioData;
-        const coreVideoData = specificOrientationBlock.coreVideoData;
+        const {
+            coreMessage,
+            coreAudioData = [],
+            coreVideoData = [],
+            [solution]: solutionBlock = {}
+        } = specificOrientationBlock || {};
 
         const message = specificOrientationBlock?.Message || "No message available.";
-        const solutionInfo = specificOrientationBlock?.[solution]?.[solutionDetails] || "No solution info available.";
+        const solutionInfo = solutionBlock?.[solutionDetails] || "No solution info available.";
 
-        const aseIfa = oduData.AseIfa || [];
-        const orisha = oduData.Orisha;
-        const taboo = oduData.Taboo;
-        const names = oduData.Names;
-        const occupation = oduData.Occupation;
-        const credit = oduData.Credit;
-        const alias = oduData.alias;
-        const audioData = oduData.audioData || [];
-        const videoData = oduData.videoData || [];
+        const {
+            AseIfa = [],
+            Orisha: orisha,
+            Taboo: taboo,
+            Names: names,
+            Occupation: occupation,
+            Credit: credit,
+            alias,
+            audioData = [],
+            videoData = []
+        } = oduData;
 
-        const aseIfaHTML = aseIfa.length ? aseIfa.map(item => `<p>${item}</p>`).join("") : "";
+        const aseIfaHTML = AseIfa.map(item => `<p>${item}</p>`).join("");
         const oduSummary = getOduSummary(mainCast);
         const spiritualInsight = decodeIfaWithSpiritualContext(mainCast, orientation, specificOrientation, solution, solutionDetails);
 
-        // Format Audio and Video for Core
-        
-        const renderCoreAudioLinks = (data, type) => {
-            if (!Array.isArray(data) || data.length === 0) return '';
-            return ` 
-                        ${data.map(item => {
-                const safeUrl = item.url.replace(/'/g, "\\'");
-                return `<p class="col-md-6" style="float:left;"> 
-                            <a href="#" onclick="openAudioModal('${safeUrl}'); return false;">
-                                🎧 Listen to Audio
-                            </a> of ${item.author}
-                        </p>`;
-            }).join("")}                  
+        const coreAudioHTML = generateMediaLinks(coreAudioData, "audio", "openAudioModal", "🎧", "Listen to Audio");
+        const coreVideoHTML = generateMediaLinks(coreVideoData, "video", "openVideoModal", "🎥", "Watch Video");
+        const audioHTML = generateMediaLinks(audioData, "audio", "openAudioModal", "🎧", "Listen to Audio");
+        const videoHTML = generateMediaLinks(videoData, "video", "openVideoModal", "🎥", "Watch Video");
+
+        preloader.style.display = 'none';
+
+        const hasAccess = isAdminAuthenticated || freeOdus.includes(mainCast) ||
+            isOduPaid(mainCast, orientation, specificOrientation, solution, solutionDetails);
+
+        if (hasAccess) {
+            let resultHTML = `
+                <h3 style="text-align: center; margin-top:20px; font-weight: bold;">
+                    ${mainCast}, ${orientationText} (${specificOrientation}), ${solution} ${solutionDetails}
+                </h3>
+                <p>${message} ${solutionInfo}</p>
             `;
-        };
 
-        const renderCoreVideoLinks = (data, type) => {
-            if (!Array.isArray(data) || data.length === 0) return '';
-            return ` 
-                        ${data.map(item =>
-                `<p class="col-md-6" style="float:left;"> 
-                    <a href="#" onclick="openVideoModal('${item.url}'); return false;">
-                        🎥 Watch Video
-                    </a> of ${item.author}
-                </p>`).join("")}                  
+            if (oduSummary) resultHTML += `<p style="font-weight: bold"><u>Key Points</u></p>${oduSummary}<hr/>`;
+            if (coreMessage) resultHTML += `<p>${coreMessage}</p>`;
+            if (coreAudioHTML) resultHTML += coreAudioHTML;
+            if (coreVideoHTML) resultHTML += coreVideoHTML;
+            if (aseIfaHTML) resultHTML += `<p style="font-weight: bold"><u>Ase Ifa</u></p>${aseIfaHTML}<hr/>`;
+            if (orisha) resultHTML += `<p style="font-weight: bold"><u>Orisha</u></p>${orisha}<hr>`;
+            if (alias) resultHTML += `<p style="font-weight: bold"><u>Alias</u></p> ${alias}<hr>`;
+            if (taboo) resultHTML += `<p style="font-weight: bold"><u>Taboo</u></p> ${taboo}<hr>`;
+            if (names) resultHTML += `<p style="font-weight: bold"><u>Names</u></p> ${names}<hr>`;
+            if (occupation) resultHTML += `<p style="font-weight: bold"><u>Occupation</u></p> ${occupation}<hr>`;
+            if (audioHTML || videoHTML) resultHTML += `${audioHTML} ${videoHTML} <hr/>`;
+            resultHTML += `<p style="font-weight: bold"><u>Spiritual Insight</u></p>${spiritualInsight}<hr/>`;
+            if (credit) resultHTML += `<p style="font-weight: bold;"><u>Credit</u></p> ${credit}`;
+
+            await fetch(`${SERVER_URL}/api/divination/log`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ oduName: mainCast, orientation, specificOrientation, solution, solutionDetails })
+            });
+
+            resultElement.innerHTML = resultHTML;
+        } else {
+            resultElement.innerHTML = `
+                <center>
+                    <h4 style="padding-top:30px;">
+                        Kindly donate N1,000 to the NGO for a 24-hour access to 
+                        ${mainCast}, ${orientationText} (${specificOrientation}), ${solution} ${solutionDetails}.
+                    </h4>
+                    <br/>
+                    <button id="payButton" class="btn btn-lg btn-warning" 
+                        onclick="payForOdu('${mainCast}', '${orientation}', '${specificOrientation}', '${solution}', '${solutionDetails}')">
+                        Donate Now
+                    </button>
+                </center>
             `;
-        };
-
-        const audioHTML = audioData.length
-
-            ? audioData.map(item => {
-                const safeUrl = item.url.replace(/'/g, "\\'");
-                return `<p class="col-md-6" style="float:left;"> 
-                            <a href="#" onclick="openAudioModal('${safeUrl}'); return false;">
-                                🎧 Listen to Audio
-                            </a> of ${item.author}
-                        </p>`;
-            }).join("")
-            : "";
-
-        const videoHTML = videoData.length
-            ? videoData.map(item =>
-                `<p class="col-md-6" style="float:left;"> 
-                    <a href="#" onclick="openVideoModal('${item.url}'); return false;">
-                        🎥 Watch Video
-                    </a> of ${item.author}
-                </p>`).join("")
-            : "";
-
-            preloader.style.display = 'none';
-
-        if (isAdminAuthenticated || freeOdus.includes(mainCast) || isOduPaid(mainCast, orientation, specificOrientation, solution, solutionDetails)) {
-        let resultHTML = `
-            <h3 style="text-align: center; margin-top:20px; font-weight: bold;">
-                ${mainCast}, ${orientationText} (${specificOrientation}), ${solution} ${solutionDetails}
-            </h3>
-            <p>${message} ${solutionInfo}</p>
-        `;
-
-        if (oduSummary) resultHTML += `<p style="font-weight: bold"><u>Key Points</u></p>${oduSummary}<hr/>`;
-        if (aseIfaHTML) resultHTML += `<p style="font-weight: bold"><u>Ase Ifa</u></p>`;
-        if (coreMessage) resultHTML += `<p>${coreMessage}</p>`;  
-        if (coreAudioData.length != 0) resultHTML += `${renderCoreAudioLinks(coreAudioData, 'audio')} <br style="clear:both;"/>`
-        if (coreVideoData.length != 0) resultHTML += `${renderCoreVideoLinks(coreVideoData, 'video')} <br style="clear:both;"/>`
-        if (aseIfaHTML) resultHTML += `${aseIfaHTML}<hr/>`;
-        if (orisha) resultHTML += `<p style="font-weight: bold"><u>Orisha</u></p>${orisha}<hr>`;
-        if (alias) resultHTML += `<p style="font-weight: bold"><u>Alias</u></p> ${alias}<hr>`;
-        if (taboo) resultHTML += `<p style="font-weight: bold"><u>Taboo</u></p> ${taboo}<hr>`;
-        if (names) resultHTML += `<p style="font-weight: bold"><u>Names</u></p> ${names}<hr>`;
-        if (occupation) resultHTML += `<p style="font-weight: bold"><u>Occupation</u></p> ${occupation}<hr>`;
-
-        if (audioHTML || videoHTML) resultHTML += `${audioHTML} ${videoHTML} <hr style="clear:both;"/>`;
-
-        resultHTML += `<p style="font-weight: bold"><u>Spiritual Insight</u></p>${spiritualInsight}<hr/>`;
-
-        if (credit) resultHTML += `<p style="font-weight: bold;"><u>Credit</u></p> ${credit}`;
-
-        await fetch(`${SERVER_URL}/api/divination/log`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                oduName: mainCast,
-                orientation,
-                specificOrientation,
-                solution,
-                solutionDetails
-            })
-        });
-
-        resultElement.innerHTML = resultHTML;
-
-            } else {
-        resultElement.innerHTML = `
-            <center>
-                <h4 style="padding-top:30px;">
-                    Kindly donate N1,000 to the NGO for a 24-hour access to 
-                    ${mainCast}, ${orientationText} (${specificOrientation}), ${solution} ${solutionDetails}.
-                </h4>
-                <br/>
-                <button id="payButton" class="btn btn-lg btn-warning" 
-                    onclick="payForOdu('${mainCast}', '${orientation}', '${specificOrientation}', '${solution}', '${solutionDetails}')">
-                    Donate Now
-                </button>
-            </center>
-        `;
-    }
+        }
 
     } catch (error) {
-         preloader.style.display = 'none';
+        preloader.style.display = 'none';
         resultElement.innerHTML = `<p style="text-align: center;" class="alert alert-info">Error loading divination data: ${error.message}</p>`;
     }
 
@@ -648,6 +612,7 @@ const performUserDivination = async (
     displayConfiguration(mainCast);
     smoothScrollTo(resultElement.offsetTop, 2000);
 };
+
 
 // Function to display Odù configuration with overlapping images
 const displayConfiguration = (oduName) => {
