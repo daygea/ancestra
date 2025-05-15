@@ -920,21 +920,21 @@ function decodeIfaWithSpiritualContext(mainCastParam, orientationParam, specific
         "Ofun Meji": ["||", "|", "||", "|"]
     };
 
-    const elements = ["Air", "Fire", "Water", "Earth"];
+    const elements = ["Fire", "Air", "Water", "Earth"];
     const elementSpiritualData = {
-        Air: {
-            orisha: "Orunmila",
-            essence: "Thought, Breath, Spirit, Intuition",
-            attributes: "Wisdom, foresight, clarity of mind, divine communication",
-            imbalance: "Confusion, anxiety, mental fog",
-            focus: "Meditation, journaling, prayer, quiet study, dream interpretation"
-        },
         Fire: {
             orisha: "Sango",
             essence: "Power, Will, Energy, Justice",
             attributes: "Transformation, strength, courage, righteous action",
             imbalance: "Anger, restlessness, impulsive actions",
             focus: "Act with purpose, assert boundaries, align with justice, dance, use fire rituals"
+        },
+        Air: {
+            orisha: "Orunmila",
+            essence: "Thought, Breath, Spirit, Intuition",
+            attributes: "Wisdom, foresight, clarity of mind, divine communication",
+            imbalance: "Confusion, anxiety, mental fog",
+            focus: "Meditation, journaling, prayer, quiet study, dream interpretation"
         },
         Water: {
             orisha: "Obatala",
@@ -986,8 +986,8 @@ function decodeIfaWithSpiritualContext(mainCastParam, orientationParam, specific
     });
 
     const spiritualForce = orientationParam === "Positive"
-        ? "Ile Iya (Maternal Lineage)"
-        : "Ile Baba (Paternal Lineage)";
+        ? "Awonomaja"
+        : "Ajagunmale";
 
     const latentSection = latentOrishaInsights.length
         ? `<p><strong>Latent Orisha Energies & Guidance:</strong><br/>${latentOrishaInsights.join("")}</p>`
@@ -995,7 +995,7 @@ function decodeIfaWithSpiritualContext(mainCastParam, orientationParam, specific
 
     return `
         <p><strong>Odu Focus:</strong> ${focusedOdu}</p>
-        <p><strong>Ancestral Origin:</strong> ${spiritualForce}</p>
+        <p><strong>Controlling Force:</strong> ${spiritualForce}</p>
         <hr/>
         <p><strong>Line-by-Line Interpretation:</strong></p>
         <ul>${markInterpretation.map(item => `<li>${item}</li>`).join("")}</ul>
