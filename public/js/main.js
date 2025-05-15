@@ -845,17 +845,16 @@ document.getElementById("determine-btn").onclick = async () => {
         const html = `
             <h3 style="text-align:center; font-weight:bold; margin-top:20px;">Revelation for ${data.fullname}</h3><hr/>
             <p style="text-align:center; font-size:22px"><strong>Life Path  - ${data.vibrations.lifepath.label}</strong></p><p>${data.vibrations.lifepath.meaning}</p><hr/>
-            <p style="text-align:center; font-size:22px"><strong>Purpose on Earth - ${data.vibrations.reality.label}</strong></p><p>${data.vibrations.reality.meaning}</p><hr/>
+            <p style="text-align:center; font-size:22px"><strong>Reality (Purpose on Earth) - ${data.vibrations.reality.label}</strong></p><p>${data.vibrations.reality.meaning}</p><hr/>
             <p><strong>Birthday Gift - ${data.birthdayGift.number}</strong> ${data.birthdayGift.meaning}</p><hr/>
             <p><strong>Birthday Challenge/Karma - ${data.birthdayChallenge.number} </strong>${data.birthdayChallenge.meaning}</p><hr/>
 
             <h3>Summary</h3>
-            <p><strong>Previous Life Path Energy - ${data.vibrations.previouslifepath.number}:</strong> ${data.vibrations.previouslifepath.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.vibrations.previouslifepath.number})">Read more...</a></p>
-            <p><strong>Current Life Path Energy - ${data.vibrations.lifepath.number}:</strong> ${data.vibrations.lifepath.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.vibrations.lifepath.number})">Read more... </a></p>
-            <p><strong>Purpose on Earth - ${data.vibrations.reality.number}:</strong> ${data.vibrations.reality.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.vibrations.reality.number})">Read more...</a></p>
-            <p><strong>Destiny - ${data.destiny.number}:</strong> ${data.destiny.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.destiny.number})">Read more...</a></p>
-            <p><strong>Soul Urge - ${data.soulUrge.number}:</strong> ${data.soulUrge.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.soulUrge.number})">Read more... </a></p>
-            <p><strong>How the world sees you - ${data.quiescent.number}:</strong> ${data.quiescent.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.quiescent.number})">Read more... </a></p>
+            <p><strong>Life Path - ${data.vibrations.lifepath.number}:</strong> ${data.vibrations.lifepath.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.vibrations.lifepath.number})">Read more... </a></p>
+            <p><strong>Reality (Purpose on Earth) - ${data.vibrations.reality.number}:</strong> ${data.vibrations.reality.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.vibrations.reality.number})">Read more...</a></p>
+            <p><strong>Expression (Destiny) - ${data.destiny.number}:</strong> ${data.destiny.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.destiny.number})">Read more...</a></p>
+            <p><strong>Soul Urge (Heart's desire) - ${data.soulUrge.number}:</strong> ${data.soulUrge.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.soulUrge.number})">Read more... </a></p>
+            <p><strong>Personality (How the world sees you) - ${data.quiescent.number}:</strong> ${data.quiescent.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.quiescent.number})">Read more... </a></p>
             <p><strong>This Year’s Energy - ${data.vibrations.year.number}:</strong> ${data.vibrations.year.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.vibrations.year.number})">Read more...</a></p>
             <p><strong>This Month's Energy - ${data.vibrations.month.number}:</strong> ${data.vibrations.month.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.vibrations.month.number})">Read more...</a></p>
             <p><strong>This Week's Energy - ${data.vibrations.week.number}:</strong> ${data.vibrations.week.label} <a style="cursor:pointer;" class="btn btn-sm" onclick="displayMeaning(${data.vibrations.week.number})">Read more...</a></p>

@@ -16,20 +16,55 @@ function getNumerologyNumber(dateString) {
     return reduceNumber(sum);
 }
 
+//Pythagoras
+// function getNameNumerology(fullName) {
+//     const name = fullName.toUpperCase().replace(/[^A-Z]/g, "");
+//     let total = 0, vowelTotal = 0, consonantTotal = 0;
+
+//     const letterValues = {
+//         A: 1, J: 1, S: 1,
+//         B: 2, K: 11, T: 2,
+//         C: 3, L: 3, U: 3,
+//         D: 4, M: 4, V: 22,
+//         E: 5, N: 5, W: 5,
+//         F: 6, O: 6, X: 6,
+//         G: 7, P: 7, Y: 7,
+//         H: 8, Q: 8, Z: 8,
+//         I: 9, R: 9
+//     };
+
+//     const vowels = ["A", "E", "I", "O", "U"];
+
+//     for (let char of name) {
+//         const val = letterValues[char] || 0;
+//         total += val;
+//         if (vowels.includes(char)) vowelTotal += val;
+//         else consonantTotal += val;
+//     }
+
+//     return {
+//         destiny: reduceNumber(total),
+//         soulUrge: reduceNumber(vowelTotal),
+//         quiescent: reduceNumber(consonantTotal),
+//     };
+// }
+
+//Chaldean
 function getNameNumerology(fullName) {
     const name = fullName.toUpperCase().replace(/[^A-Z]/g, "");
     let total = 0, vowelTotal = 0, consonantTotal = 0;
 
+    // Chaldean numerology letter values
     const letterValues = {
-        A: 1, J: 1, S: 1,
-        B: 2, K: 11, T: 2,
-        C: 3, L: 3, U: 3,
-        D: 4, M: 4, V: 22,
-        E: 5, N: 5, W: 5,
-        F: 6, O: 6, X: 6,
-        G: 7, P: 7, Y: 7,
-        H: 8, Q: 8, Z: 8,
-        I: 9, R: 9
+        A: 1, I: 1, J: 1, Q: 1, Y: 1,
+        B: 2, K: 2, R: 2,
+        C: 3, G: 3, L: 3, S: 3,
+        D: 4, M: 4, T: 4,
+        E: 5, H: 5, N: 5, X: 5,
+        U: 6, V: 6, W: 6,
+        O: 7, Z: 7,
+        F: 8, P: 8,
+        // No letter is assigned to 9
     };
 
     const vowels = ["A", "E", "I", "O", "U"];
@@ -47,6 +82,7 @@ function getNameNumerology(fullName) {
         quiescent: reduceNumber(consonantTotal),
     };
 }
+
 
 function getBirthdayChallenge(day) {
     if (day < 10) return day;
